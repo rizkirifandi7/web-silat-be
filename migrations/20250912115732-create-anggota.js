@@ -9,16 +9,10 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
+			id_user: {
+				type: Sequelize.INTEGER,
+			},
 			id_token: {
-				type: Sequelize.STRING,
-			},
-			nama_lengkap: {
-				type: Sequelize.STRING,
-			},
-			nama_panggilan: {
-				type: Sequelize.STRING,
-			},
-			email: {
 				type: Sequelize.STRING,
 			},
 			tempat_lahir: {
