@@ -19,8 +19,8 @@ module.exports = {
 				},
 				// 2. Anggota
 				{
-					nama: "Citra Lestari",
-					email: "citra.lestari@example.com",
+					nama: "Ike Ineke Suwanda",
+					email: "ike.ineke.suwanda@example.com",
 					password: hashedPassword,
 					role: "anggota",
 					createdAt: new Date(),
@@ -28,8 +28,8 @@ module.exports = {
 				},
 				// 3. Anggota
 				{
-					nama: "Doni Firmansyah",
-					email: "doni.firmansyah@example.com",
+					nama: "E. Tholib",
+					email: "e.tholib@example.com",
 					password: hashedPassword,
 					role: "anggota",
 					createdAt: new Date(),
@@ -37,8 +37,8 @@ module.exports = {
 				},
 				// 4. Anggota
 				{
-					nama: "Eka Putri",
-					email: "eka.putri@example.com",
+					nama: "Moh. Ramdhan",
+					email: "moh.ramdhan@example.com",
 					password: hashedPassword,
 					role: "anggota",
 					createdAt: new Date(),
@@ -46,8 +46,8 @@ module.exports = {
 				},
 				// 5. Anggota
 				{
-					nama: "Fajar Nugroho",
-					email: "fajar.nugroho@example.com",
+					nama: "Ratih Komalasari",
+					email: "ratih.komalasari@example.com",
 					password: hashedPassword,
 					role: "anggota",
 					createdAt: new Date(),
@@ -55,8 +55,8 @@ module.exports = {
 				},
 				// 6. Anggota
 				{
-					nama: "Gita Wulandari",
-					email: "gita.wulandari@example.com",
+					nama: "Rifki Fajari Supriatna",
+					email: "rifki.fajari.supriatna@example.com",
 					password: hashedPassword,
 					role: "anggota",
 					createdAt: new Date(),
@@ -64,8 +64,8 @@ module.exports = {
 				},
 				// 7. Anggota
 				{
-					nama: "Hendra Wijaya",
-					email: "hendra.wijaya@example.com",
+					nama: "Yogi Nugraha",
+					email: "yogi.nugraha@example.com",
 					password: hashedPassword,
 					role: "anggota",
 					createdAt: new Date(),
@@ -73,8 +73,8 @@ module.exports = {
 				},
 				// 8. Anggota
 				{
-					nama: "Indah Permata",
-					email: "indah.permata@example.com",
+					nama: "M. Rafi Ramadhan",
+					email: "m.rafi.ramadhan@example.com",
 					password: hashedPassword,
 					role: "anggota",
 					createdAt: new Date(),
@@ -82,8 +82,17 @@ module.exports = {
 				},
 				// 9. Anggota
 				{
-					nama: "Joko Susilo",
-					email: "joko.susilo@example.com",
+					nama: "Adinda Dara Sentifa",
+					email: "adinda.dara.sentifa@example.com",
+					password: hashedPassword,
+					role: "anggota",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				// 10. Anggota
+				{
+					nama: "Rizky Muhammad Sujaya",
+					email: "rizky.muhammad.sujaya@example.com",
 					password: hashedPassword,
 					role: "anggota",
 					createdAt: new Date(),

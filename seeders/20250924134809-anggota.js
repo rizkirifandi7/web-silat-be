@@ -23,7 +23,7 @@ module.exports = {
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
-				// 2. Data Anggota untuk User ID 3
+				// 2. Data Anggota untuk User ID 3 (Ike Ineke Suwanda - Guru Besar)
 				{
 					id_user: 2,
 					id_token: "K8F3Z6HJ",
@@ -35,13 +35,13 @@ module.exports = {
 					no_telepon: "081298765432",
 					angkatan_unit: "2020",
 					status_keanggotaan: "Aktif",
-					status_perguruan: "Anggota",
+					status_perguruan: "Guru Besar",
 					tingkatan_sabuk: "Belum punya",
 					foto: "",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
-				// 3. Data Anggota untuk User ID 4
+				// 3. Data Anggota untuk User ID 4 (E. Tholib - Guru Besar)
 				{
 					id_user: 3,
 					id_token: "R5M1N9QC",
@@ -53,13 +53,13 @@ module.exports = {
 					no_telepon: "081311223344",
 					angkatan_unit: "2019",
 					status_keanggotaan: "Aktif",
-					status_perguruan: "Anggota",
+					status_perguruan: "Guru Besar",
 					tingkatan_sabuk: "Belum punya",
 					foto: "",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
-				// 4. Data Anggota untuk User ID 5
+				// 4. Data Anggota untuk User ID 5 (Ratih Komalasari - Pelatih)
 				{
 					id_user: 4,
 					id_token: "A2D7G6VT",
@@ -71,13 +71,13 @@ module.exports = {
 					no_telepon: "081455667788",
 					angkatan_unit: "2021",
 					status_keanggotaan: "Aktif",
-					status_perguruan: "Anggota",
+					status_perguruan: "Pelatih",
 					tingkatan_sabuk: "Belum punya",
 					foto: "",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
-				// 5. Data Anggota untuk User ID 6
+				// 5. Data Anggota untuk User ID 6 (Rifki Fajari Supriatna - Pelatih)
 				{
 					id_user: 5,
 					id_token: "Y4S9L3PK",
@@ -89,13 +89,13 @@ module.exports = {
 					no_telepon: "081599887766",
 					angkatan_unit: "2017",
 					status_keanggotaan: "Aktif",
-					status_perguruan: "Anggota",
+					status_perguruan: "Pelatih",
 					tingkatan_sabuk: "Belum punya",
 					foto: "",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
-				// 6. Data Anggota untuk User ID 7
+				// 6. Data Anggota untuk User ID 7 (Yogi Nugraha - Pelatih)
 				{
 					id_user: 6,
 					id_token: "E6Z8W1XN",
@@ -107,13 +107,13 @@ module.exports = {
 					no_telepon: "081612345678",
 					angkatan_unit: "2022",
 					status_keanggotaan: "Aktif",
-					status_perguruan: "Anggota",
+					status_perguruan: "Pelatih",
 					tingkatan_sabuk: "Belum punya",
 					foto: "",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
-				// 7. Data Anggota untuk User ID 8
+				// 7. Data Anggota untuk User ID 8 (M. Rafi Ramadhan - Pelatih)
 				{
 					id_user: 7,
 					id_token: "C3V5B7TM",
@@ -125,13 +125,13 @@ module.exports = {
 					no_telepon: "081787654321",
 					angkatan_unit: "2016",
 					status_keanggotaan: "Aktif",
-					status_perguruan: "Anggota",
+					status_perguruan: "Pelatih",
 					tingkatan_sabuk: "Belum punya",
 					foto: "",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
-				// 8. Data Anggota untuk User ID 9
+				// 8. Data Anggota untuk User ID 9 (Adinda Dara Sentifa - Pelatih)
 				{
 					id_user: 8,
 					id_token: "J9H2R4DF",
@@ -143,13 +143,13 @@ module.exports = {
 					no_telepon: "081811112222",
 					angkatan_unit: "2023",
 					status_keanggotaan: "Aktif",
-					status_perguruan: "Anggota",
+					status_perguruan: "Pelatih",
 					tingkatan_sabuk: "Belum punya",
 					foto: "",
 					createdAt: new Date(),
 					updatedAt: new Date(),
 				},
-				// 9. Data Anggota untuk User ID 10
+				// 9. Data Anggota untuk User ID 10 (Rizky Muhammad Sujaya - Pelatih)
 				{
 					id_user: 9,
 					id_token: "P7Q6K1S",
@@ -161,7 +161,25 @@ module.exports = {
 					no_telepon: "081933334444",
 					angkatan_unit: "2020",
 					status_keanggotaan: "Aktif",
-					status_perguruan: "Anggota",
+					status_perguruan: "Pelatih",
+					tingkatan_sabuk: "Belum punya",
+					foto: "",
+					createdAt: new Date(),
+					updatedAt: new Date(),
+				},
+				// 10. Data Anggota untuk User ID 11 (Rizky Muhammad Sujaya - Pelatih)
+				{
+					id_user: 10,
+					id_token: "F7M6G1S",
+					tempat_lahir: "Denpasar",
+					tanggal_lahir: new Date("2000-08-17"),
+					jenis_kelamin: "Laki-laki",
+					alamat: "Jl. Kuta Raya No. 10, Denpasar",
+					agama: "Hindu",
+					no_telepon: "081933334224",
+					angkatan_unit: "2020",
+					status_keanggotaan: "Aktif",
+					status_perguruan: "Pelatih",
 					tingkatan_sabuk: "Belum punya",
 					foto: "",
 					createdAt: new Date(),

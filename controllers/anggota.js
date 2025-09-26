@@ -6,7 +6,9 @@ const getAllAnggota = async (req, res) => {
 	try {
 		// Sertakan model User saat mengambil data Anggota
 		const anggota = await Anggota.findAll({
-			include: [{ model: User, as: "user", attributes: ["nama", "email"] }],
+			include: [
+				{ model: User, as: "user", attributes: ["nama", "email", "role"] },
+			],
 		});
 		res.status(200).json(anggota);
 	} catch (error) {
