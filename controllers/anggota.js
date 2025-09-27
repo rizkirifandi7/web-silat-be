@@ -1,15 +1,13 @@
-const { Anggota, User } = require("../models");
+const { Anggota } = require("../models");
 const cloudinary = require("../middleware/cloudinary");
 const fs = require("fs");
+const bcrypt = require("bcrypt");
 
 const getAllAnggota = async (req, res) => {
 	try {
-		// Sertakan model User saat mengambil data Anggota
-		const anggota = await Anggota.findAll({
-			include: [
-				{ model: User, as: "user", attributes: ["nama", "email", "role"] },
-			],
-		});
+		const anggota = await Anggota.findAll(
+			{ attributes: { exclude: ["password"] } }
+		);
 		res.status(200).json(anggota);
 	} catch (error) {
 		res.status(500).json({ message: "Error retrieving anggota", error });
@@ -19,9 +17,8 @@ const getAllAnggota = async (req, res) => {
 const getAnggotaById = async (req, res) => {
 	const { id } = req.params;
 	try {
-		// Sertakan model User saat mengambil data Anggota
 		const anggota = await Anggota.findByPk(id, {
-			include: [{ model: User, as: "user", attributes: ["nama", "email"] }],
+			attributes: { exclude: ["password"] },
 		});
 		if (anggota) {
 			res.status(200).json(anggota);
@@ -36,10 +33,9 @@ const getAnggotaById = async (req, res) => {
 const getAnggotaByIdToken = async (req, res) => {
 	const { id_token } = req.params;
 	try {
-		// Sertakan model User saat mengambil data Anggota
 		const anggota = await Anggota.findOne({
 			where: { id_token },
-			include: [{ model: User, as: "user", attributes: ["nama", "email"] }],
+			attributes: { exclude: ["password"] },
 		});
 		if (anggota) {
 			res.status(200).json(anggota);
@@ -52,11 +48,9 @@ const getAnggotaByIdToken = async (req, res) => {
 };
 
 const updateAnggota = async (req, res) => {
-	const { id } = req.params; // id di sini adalah id Anggota
+	const { id } = req.params;
 	try {
-		const anggota = await Anggota.findByPk(id, {
-			include: [{ model: User, as: "user" }],
-		});
+		const anggota = await Anggota.findByPk(id);
 		if (!anggota) {
 			return res.status(404).json({ message: "Anggota not found" });
 		}
@@ -82,10 +76,11 @@ const updateAnggota = async (req, res) => {
 		}
 
 		const {
-			// Data User
 			nama,
 			email,
-			// Data Anggota
+			password,
+			role,
+			id_token,
 			tempat_lahir,
 			tanggal_lahir,
 			jenis_kelamin,
@@ -98,13 +93,12 @@ const updateAnggota = async (req, res) => {
 			tingkatan_sabuk,
 		} = req.body;
 
-		// Update data User jika ada
-		if (nama || email) {
-			await anggota.user.update({ nama, email });
-		}
-
-		// Update data Anggota
-		await anggota.update({
+		// Prepare update data
+		const updateData = {
+			nama,
+			email,
+			role,
+			id_token,
 			tempat_lahir,
 			tanggal_lahir,
 			jenis_kelamin,
@@ -116,12 +110,18 @@ const updateAnggota = async (req, res) => {
 			status_perguruan,
 			tingkatan_sabuk,
 			foto: req.body.foto || anggota.foto,
-		});
+		};
+
+		// Hash password if provided
+		if (password) {
+			updateData.password = await bcrypt.hash(password, 10);
+		}
+
+		// Update data Anggota
+		await anggota.update(updateData);
 
 		// Ambil data terbaru untuk response
-		const updatedAnggota = await Anggota.findByPk(id, {
-			include: [{ model: User, as: "user", attributes: ["nama", "email"] }],
-		});
+		const updatedAnggota = await Anggota.findByPk(id);
 
 		res.status(200).json(updatedAnggota);
 	} catch (error) {
@@ -130,12 +130,10 @@ const updateAnggota = async (req, res) => {
 };
 
 const deleteAnggota = async (req, res) => {
-	const { id } = req.params; // id di sini adalah id Anggota
+	const { id } = req.params;
 	try {
 		const anggota = await Anggota.findByPk(id);
 		if (anggota) {
-			const id_user = anggota.id_user;
-
 			// Hapus foto dari Cloudinary jika ada
 			if (anggota.foto) {
 				const publicId = anggota.foto.split("/").pop().split(".")[0];
@@ -145,15 +143,7 @@ const deleteAnggota = async (req, res) => {
 			// Hapus data Anggota
 			await anggota.destroy();
 
-			// Hapus data User yang terkait
-			const user = await User.findByPk(id_user);
-			if (user) {
-				await user.destroy();
-			}
-
-			res
-				.status(200)
-				.json({ message: "Anggota and associated User deleted successfully" });
+			res.status(200).json({ message: "Anggota deleted successfully" });
 		} else {
 			res.status(404).json({ message: "Anggota not found" });
 		}

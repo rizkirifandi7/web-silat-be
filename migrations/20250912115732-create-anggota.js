@@ -9,11 +9,20 @@ module.exports = {
 				primaryKey: true,
 				type: Sequelize.INTEGER,
 			},
-			id_user: {
-				type: Sequelize.INTEGER,
-			},
 			id_token: {
 				type: Sequelize.STRING,
+			},
+			nama: {
+				type: Sequelize.STRING,
+			},
+			email: {
+				type: Sequelize.STRING,
+			},
+			password: {
+				type: Sequelize.STRING,
+			},
+			role: {
+				type: Sequelize.ENUM("admin", "anggota"),
 			},
 			tempat_lahir: {
 				type: Sequelize.STRING,
@@ -37,7 +46,7 @@ module.exports = {
 				type: Sequelize.STRING,
 			},
 			foto: {
-				type: Sequelize.STRING,
+				type: Sequelize.TEXT,
 			},
 			status_keanggotaan: {
 				type: Sequelize.STRING,

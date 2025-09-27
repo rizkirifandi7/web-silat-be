@@ -4,12 +4,14 @@ module.exports = (sequelize, DataTypes) => {
 	class Anggota extends Model {
 		static associate(models) {
 			// define association here
-			Anggota.belongsTo(models.User, { foreignKey: "id_user", as: "user" });
 		}
 	}
 	Anggota.init(
 		{
-			id_user: DataTypes.INTEGER,
+			nama: DataTypes.STRING,
+			email: DataTypes.STRING,
+			password: DataTypes.STRING,
+			role: DataTypes.ENUM("admin", "anggota"),
 			id_token: DataTypes.STRING,
 			tempat_lahir: DataTypes.STRING,
 			tanggal_lahir: DataTypes.DATE,
@@ -21,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
 			status_keanggotaan: DataTypes.STRING,
 			status_perguruan: DataTypes.STRING,
 			tingkatan_sabuk: DataTypes.STRING,
-			foto: DataTypes.STRING,
+			foto: DataTypes.TEXT,
 		},
 		{
 			sequelize,
