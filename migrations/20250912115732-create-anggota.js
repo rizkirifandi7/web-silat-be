@@ -22,7 +22,7 @@ module.exports = {
 				type: Sequelize.STRING,
 			},
 			role: {
-				type: Sequelize.ENUM("admin", "anggota"),
+				type: Sequelize.ENUM("superadmin", "admin", "anggota"),
 			},
 			tempat_lahir: {
 				type: Sequelize.STRING,

@@ -13,7 +13,7 @@ module.exports = {
 					nama: "Admin Utama",
 					email: "admin@test.com",
 					password: bcrypt.hashSync("admin123", 10),
-					role: "admin",
+					role: "superadmin",
 					id_token: "7B4W9P2X",
 					tempat_lahir: "Jakarta",
 					tanggal_lahir: new Date("1998-05-10"),
@@ -81,7 +81,8 @@ module.exports = {
 					tempat_lahir: "Bandung",
 					tanggal_lahir: new Date("1990-05-25"),
 					jenis_kelamin: "Laki-laki",
-					alamat: "Kp. Ciganitri, Desa Cipagalo, Kec. Bojongsoang ,Kab. Bandung",
+					alamat:
+						"Kp. Ciganitri, Desa Cipagalo, Kec. Bojongsoang ,Kab. Bandung",
 					agama: "Islam",
 					no_telepon: "082118534150",
 					angkatan_unit: "26",
