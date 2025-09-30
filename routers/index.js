@@ -5,11 +5,17 @@ const authRoutes = require("./auth");
 const katalogRoutes = require("./katalog");
 const orderRoutes = require("./order");
 const galeriRoutes = require("./galeri");
+const materiRoutes = require("./materi");
+const seminarRoutes = require("./seminar");
+const courseRoutes = require("./course");
 
+router.use("/course", courseRoutes);
+router.use("/seminar", seminarRoutes);
 router.use("/anggota", anggotaRoutes);
 router.use("/auth", authRoutes);
 router.use("/katalog", katalogRoutes);
 router.use("/order", orderRoutes);
 router.use("/galeri", galeriRoutes);
+router.use("/materi", materiRoutes);
 
 module.exports = router;
