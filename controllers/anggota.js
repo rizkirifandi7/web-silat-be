@@ -165,6 +165,22 @@ const deleteAnggota = async (req, res) => {
 	}
 };
 
+const getProfile = async (req, res) => {
+	const userId = req.user.id;
+	try {
+		const anggota = await Anggota.findByPk(userId, {
+			attributes: { exclude: ["password"] },
+		});
+		if (anggota) {
+			res.status(200).json(anggota);
+		} else {
+			res.status(404).json({ message: "Anggota not found" });
+		}
+	} catch (error) {
+		res.status(500).json({ message: "Error retrieving anggota", error });
+	}
+};
+
 module.exports = {
 	getAllAnggota,
 	getAllAnggotaAdmin,
@@ -172,4 +188,5 @@ module.exports = {
 	updateAnggota,
 	deleteAnggota,
 	getAnggotaByIdToken,
+	getProfile,
 };
