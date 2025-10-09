@@ -5,9 +5,22 @@ const bcrypt = require("bcrypt");
 
 const getAllAnggota = async (req, res) => {
 	try {
-		const anggota = await Anggota.findAll(
-			{ attributes: { exclude: ["password"] } }
-		);
+		const anggota = await Anggota.findAll({
+			where: { role: "anggota" },
+			attributes: { exclude: ["password"] },
+		});
+		res.status(200).json(anggota);
+	} catch (error) {
+		res.status(500).json({ message: "Error retrieving anggota", error });
+	}
+};
+
+const getAllAnggotaAdmin = async (req, res) => {
+	try {
+		const anggota = await Anggota.findAll({
+			where: { role: "admin" },
+			attributes: { exclude: ["password"] },
+		});
 		res.status(200).json(anggota);
 	} catch (error) {
 		res.status(500).json({ message: "Error retrieving anggota", error });
@@ -154,6 +167,7 @@ const deleteAnggota = async (req, res) => {
 
 module.exports = {
 	getAllAnggota,
+	getAllAnggotaAdmin,
 	getAnggotaById,
 	updateAnggota,
 	deleteAnggota,

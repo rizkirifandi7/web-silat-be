@@ -27,6 +27,27 @@ const getCourseById = async (req, res) => {
 	}
 };
 
+const getAllMateriByCourseId = async (req, res) => {
+	const { id_course } = req.params;
+	try {
+		const course = await Course.findByPk(id_course);
+		if (!course) {
+			return res.status(404).json({ message: "Course not found" });
+		}
+
+		const materi = await Materi.findAll({
+			where: { courseId: id_course },
+		});
+
+		res.status(200).json(materi);
+	} catch (error) {
+		res.status(500).json({
+			message: "Error retrieving materi for the course",
+			error,
+		});
+	}
+};
+
 const createCourse = async (req, res) => {
 	const { judul, deskripsi } = req.body;
 	try {
@@ -72,6 +93,7 @@ const deleteCourse = async (req, res) => {
 module.exports = {
 	getAllCourses,
 	getCourseById,
+	getAllMateriByCourseId,
 	createCourse,
 	updateCourse,
 	deleteCourse,
