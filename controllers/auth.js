@@ -112,7 +112,9 @@ const Login = async (req, res) => {
 			expiresIn: "24h",
 		});
 
-		res.status(200).json({ message: "Login successful", token });
+		res
+			.status(200)
+			.json({ message: "Login successful", token, role: anggota.role });
 	} catch (error) {
 		res.status(500).json({ message: "Error logging in", error: error.message });
 	}

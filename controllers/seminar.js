@@ -1,19 +1,19 @@
 const { Seminar } = require("../models");
-const fs = require("fs");
 const cloudinary = require("../middleware/cloudinary");
+const fs = require("fs");
 
-const getAllSeminar = async (req, res) => {
+const getAllSeminars = async (req, res) => {
 	try {
-		const seminar = await Seminar.findAll();
-		res.status(200).json(seminar);
+		const seminars = await Seminar.findAll();
+		res.status(200).json(seminars);
 	} catch (error) {
-		res.status(500).json({ message: "Error retrieving seminar", error });
+		res.status(500).json({ message: error.message });
 	}
 };
 
 const getSeminarById = async (req, res) => {
-	const { id } = req.params;
 	try {
+		const { id } = req.params;
 		const seminar = await Seminar.findByPk(id);
 		if (seminar) {
 			res.status(200).json(seminar);
@@ -21,97 +21,156 @@ const getSeminarById = async (req, res) => {
 			res.status(404).json({ message: "Seminar not found" });
 		}
 	} catch (error) {
-		res.status(500).json({ message: "Error retrieving seminar", error });
+		res.status(500).json({ message: error.message });
 	}
 };
 
 const createSeminar = async (req, res) => {
-	const { judul, deskripsi } = req.body;
 	try {
-		let gambarUrl = null;
-		if (req.file) {
-			const result = await cloudinary.uploader.upload(req.file.path, {
-				folder: "seminar",
-				use_filename: true,
-				unique_filename: false,
-				overwrite: true,
-			});
-			gambarUrl = result.secure_url;
-		}
-		const newSeminar = await Seminar.create({
-			gambar: gambarUrl,
+		const {
 			judul,
 			deskripsi,
+			tanggal_mulai,
+			tanggal_selesai,
+			waktu_mulai,
+			waktu_selesai,
+			lokasi,
+			link_acara,
+			harga,
+			kuota,
+			status,
+		} = req.body;
+
+		let gambar = null;
+		let gambar_banner = null;
+		if (req.files) {
+			if (req.files.gambar) {
+				const result = await cloudinary.uploader.upload(
+					req.files.gambar[0].path,
+					{ folder: "seminar_images" }
+				);
+				gambar = result.secure_url;
+				fs.unlinkSync(req.files.gambar[0].path);
+			}
+			if (req.files.gambar_banner) {
+				const result = await cloudinary.uploader.upload(
+					req.files.gambar_banner[0].path,
+					{ folder: "seminar_banners" }
+				);
+				gambar_banner = result.secure_url;
+				fs.unlinkSync(req.files.gambar_banner[0].path);
+			}
+		}
+		const newSeminar = await Seminar.create({
+			gambar,
+			judul,
+			deskripsi,
+			tanggal_mulai,
+			tanggal_selesai,
+
+			waktu_mulai,
+			waktu_selesai,
+			lokasi,
+			link_acara,
+			harga,
+			kuota,
+			status,
+			gambar_banner,
 		});
 		res.status(201).json(newSeminar);
 	} catch (error) {
-		res.status(500).json({ message: "Error creating seminar", error });
+		res.status(500).json({ message: error.message });
 	}
 };
 
 const updateSeminar = async (req, res) => {
-	const { id } = req.params;
-	const { judul, deskripsi } = req.body;
 	try {
+		const { id } = req.params;
+		const {
+			judul,
+			deskripsi,
+			tanggal_mulai,
+			tanggal_selesai,
+			waktu_mulai,
+			waktu_selesai,
+			lokasi,
+			link_acara,
+			harga,
+			kuota,
+			status,
+		} = req.body;
+
 		const seminar = await Seminar.findByPk(id);
 		if (!seminar) {
 			return res.status(404).json({ message: "Seminar not found" });
 		}
-
-		// Handle file upload
-		if (req.file) {
-			try {
-				if (seminar.gambar) {
-					const publicId = seminar.gambar.split("/").pop().split(".")[0];
-					await cloudinary.uploader.destroy(`seminar/${publicId}`);
-				}
-
-				const result = await cloudinary.uploader.upload(req.file.path, {
-					folder: "seminar",
-					use_filename: true,
-					unique_filename: false,
-					overwrite: true,
-				});
-
-				req.body.gambar = result.secure_url;
-			} catch (uploadError) {
-				fs.unlinkSync(req.file.path);
-				return res
-					.status(500)
-					.json({ message: "Error uploading image", error: uploadError });
+		let gambar = seminar.gambar;
+		let gambar_banner = seminar.gambar_banner;
+		if (req.files) {
+			if (req.files.gambar) {
+				const result = await cloudinary.uploader.upload(
+					req.files.gambar[0].path,
+					{ folder: "seminar_images" }
+				);
+				gambar = result.secure_url;
+				fs.unlinkSync(req.files.gambar[0].path);
 			}
-			seminar.gambar = req.body.gambar;
-			await seminar.save();
+			if (req.files.gambar_banner) {
+				const result = await cloudinary.uploader.upload(
+					req.files.gambar_banner[0].path,
+					{ folder: "seminar_banners" }
+				);
+				gambar_banner = result.secure_url;
+				fs.unlinkSync(req.files.gambar_banner[0].path);
+			}
 		}
-		seminar.judul = judul || seminar.judul;
-		seminar.deskripsi = deskripsi || seminar.deskripsi;
-		await seminar.save();
+		await seminar.update({
+			gambar,
+			judul,
+			deskripsi,
+			tanggal_mulai,
+			tanggal_selesai,
+			waktu_mulai,
+			waktu_selesai,
+			lokasi,
+			link_acara,
+			harga,
+			kuota,
+			status,
+			gambar_banner,
+		});
 		res.status(200).json(seminar);
 	} catch (error) {
-		res.status(500).json({ message: "Error updating seminar", error });
+		res.status(500).json({ message: error.message });
 	}
 };
 
 const deleteSeminar = async (req, res) => {
-	const { id } = req.params;
 	try {
+		const { id } = req.params;
 		const seminar = await Seminar.findByPk(id);
 		if (!seminar) {
 			return res.status(404).json({ message: "Seminar not found" });
 		}
 		if (seminar.gambar) {
+			// Extract public ID from the URL
 			const publicId = seminar.gambar.split("/").pop().split(".")[0];
-			await cloudinary.uploader.destroy(`seminar/${publicId}`);
+			await cloudinary.uploader.destroy(publicId);
 		}
+		if (seminar.gambar_banner) {
+			const publicId = seminar.gambar_banner.split("/").pop().split(".")[0];
+			await cloudinary.uploader.destroy(publicId);
+		}
+
 		await seminar.destroy();
 		res.status(200).json({ message: "Seminar deleted successfully" });
 	} catch (error) {
-		res.status(500).json({ message: "Error deleting seminar", error });
+		res.status(500).json({ message: error.message });
 	}
 };
 
 module.exports = {
-	getAllSeminar,
+	getAllSeminars,
 	getSeminarById,
 	createSeminar,
 	updateSeminar,

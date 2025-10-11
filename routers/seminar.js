@@ -1,17 +1,17 @@
 const router = require("express").Router();
 const {
-  getAllSeminar,
-  getSeminarById,
-  createSeminar,
-  updateSeminar,
-  deleteSeminar,
+	getAllSeminars,
+	getSeminarById,
+	createSeminar,
+	updateSeminar,
+	deleteSeminar,
 } = require("../controllers/seminar");
 const upload = require("../middleware/multer");
 
-router.get("/", getAllSeminar);
+router.get("/", getAllSeminars);
 router.get("/:id", getSeminarById);
-router.post("/", upload.single("gambar"), createSeminar);
-router.put("/:id", upload.single("gambar"), updateSeminar);
+router.post("/", upload.fields([{ name: "gambar" }, { name: "gambar_banner" }]), createSeminar);
+router.put("/:id", upload.fields([{ name: "gambar" }, { name: "gambar_banner" }]), updateSeminar);
 router.delete("/:id", deleteSeminar);
 
 module.exports = router;
