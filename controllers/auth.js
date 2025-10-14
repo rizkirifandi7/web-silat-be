@@ -82,44 +82,63 @@ const Register = async (req, res) => {
 			.json({ message: "Error registering user", error: error.message });
 	}
 };
+
 const Login = async (req, res) => {
 	const { email, password } = req.body;
 	try {
-		const anggota = await Anggota.findOne({
+		const user = await Anggota.findOne({
 			where: { email },
 		});
 
-		if (!anggota) {
-			return res.status(404).json({ message: "User not found" });
+		// Gunakan pesan error yang sama untuk keamanan
+		const invalidCredentialsMessage = "Email atau password salah.";
+
+		if (!user) {
+			return res.status(401).json({ message: invalidCredentialsMessage });
 		}
 
-		const isPasswordValid = await bcrypt.compare(password, anggota.password);
+		const isPasswordValid = await bcrypt.compare(password, user.password);
 
 		if (!isPasswordValid) {
-			return res.status(401).json({ message: "Invalid password" });
+			return res.status(401).json({ message: invalidCredentialsMessage });
 		}
 
-		// Sertakan id_token dalam payload token JWT
-		const payload = {
-			id: anggota.id,
-			role: anggota.role,
-			nama: anggota.nama,
-			id_token: anggota.id_token,
-			tingkatan_sabuk: anggota.tingkatan_sabuk,
+		// Buat payload JWT yang minimalis
+		const jwtPayload = {
+			id: user.id,
+			role: user.role,
 		};
 
-		const token = jwt.sign(payload, process.env.JWT_SECRET, {
-			expiresIn: "24h",
+		const token = jwt.sign(jwtPayload, process.env.JWT_SECRET, {
+			expiresIn: "24h", // Token berlaku selama 24 jam
 		});
 
-		res
-			.status(200)
-			.json({ message: "Login successful", token, role: anggota.role });
+		// Buat objek user yang akan dikirim ke frontend (tanpa password)
+		const userForFrontend = {
+			id: user.id,
+			nama: user.nama,
+			email: user.email,
+			role: user.role,
+			foto: user.foto,
+			id_token: user.id_token,
+			tingkatan_sabuk: user.tingkatan_sabuk,
+		};
+
+		// Kirim respons dengan struktur yang sesuai dengan frontend
+		res.status(200).json({
+			message: "Login berhasil",
+			data: {
+				token: token,
+				user: userForFrontend, // Ganti nama dari userData menjadi user
+			},
+		});
 	} catch (error) {
-		res.status(500).json({ message: "Error logging in", error: error.message });
+		console.error("Login Error:", error);
+		res
+			.status(500)
+			.json({ message: "Terjadi kesalahan pada server", error: error.message });
 	}
 };
-
 const changePassword = async (req, res) => {
 	const userId = req.userId;
 
