@@ -107,6 +107,7 @@ const Login = async (req, res) => {
 		const jwtPayload = {
 			id: user.id,
 			role: user.role,
+			tingkatan_sabuk: user.tingkatan_sabuk,
 		};
 
 		const token = jwt.sign(jwtPayload, process.env.JWT_SECRET, {

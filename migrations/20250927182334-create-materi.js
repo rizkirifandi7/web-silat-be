@@ -21,6 +21,23 @@ module.exports = {
 			konten: {
 				type: Sequelize.TEXT,
 			},
+			tingkatan: {
+				type: Sequelize.ENUM(
+					"Belum punya",
+					"LULUS Binfistal",
+					"Sabuk Putih",
+					"Sabuk Kuning",
+					"Sabuk Hijau",
+					"Sabuk Merah",
+					"Sabuk Hitam Wiraga 1",
+					"Sabuk Hitam Wiraga 2",
+					"Sabuk Hitam Wiraga 3"
+				),
+				allowNull: false,
+			},
+			deskripsi: {
+				type: Sequelize.TEXT,
+			},
 			createdAt: {
 				allowNull: false,
 				type: Sequelize.DATE,
