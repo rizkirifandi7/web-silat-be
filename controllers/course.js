@@ -41,34 +41,7 @@ const getCourseById = async (req, res) => {
 // FUNGSI BARU (Dengan Logika Penguncian untuk Pengguna)
 // =================================================================================
 
-// Definisikan hierarki tingkatan
-const tingkatanHierarchy = {
-	"Belum punya": 0,
-	"LULUS Binfistal": 1,
-	"Sabuk Putih": 2,
-	"Sabuk Kuning": 3,
-	"Sabuk Hijau": 4,
-	"Sabuk Merah": 5,
-	"Sabuk Hitam Wiraga 1": 6,
-	"Sabuk Hitam Wiraga 2": 7,
-	"Sabuk Hitam Wiraga 3": 8,
-};
-
-// Fungsi bantuan untuk memproses status kunci materi
-const processMateriLockStatus = (materiList, userLevel) => {
-	if (!materiList || materiList.length === 0) return [];
-	return materiList.map((materi) => {
-		const materiData = materi.get({ plain: true });
-		const materiLevel = tingkatanHierarchy[materiData.tingkatan];
-		const isLocked = userLevel < materiLevel;
-
-		materiData.isLocked = isLocked;
-		if (isLocked) {
-			materiData.konten = null;
-		}
-		return materiData;
-	});
-};
+// (No server-side locking) User endpoints will return full course/materi data.
 
 /**
  * @description (BARU) Mengambil semua course beserta materi dengan status 'isLocked' untuk pengguna.
@@ -76,34 +49,9 @@ const processMateriLockStatus = (materiList, userLevel) => {
  */
 const getAllCoursesForUser = async (req, res) => {
 	try {
-		const userTingkatan = req.user.tingkatan_sabuk;
-
-		console.log("User Tingkatan:", userTingkatan);
-
-		const userLevel = tingkatanHierarchy[userTingkatan] || 0;
-
-		const courses = await Course.findAll({
-			include: { model: Materi },
-		});
-
-		const coursesWithLockStatus = courses.map((course) => {
-			const courseData = course.get({ plain: true });
-
-			// Jika user tidak punya tingkatan, Materi dikosongkan
-			if (userLevel === 0) {
-				courseData.Materi = [];
-			} else {
-				courseData.Materi = processMateriLockStatus(course.Materi, userLevel);
-			}
-			// Hapus properti duplikat 'Materis' jika ada untuk membersihkan output
-			delete courseData.Materis;
-
-			return courseData;
-		});
-
-		console.log(coursesWithLockStatus);
-
-		res.status(200).json(coursesWithLockStatus);
+		// Return full courses + materi for the authenticated user. Frontend will apply filtering.
+		const courses = await Course.findAll({ include: { model: Materi } });
+		res.status(200).json(courses);
 	} catch (error) {
 		res
 			.status(500)
@@ -117,17 +65,9 @@ const getAllCoursesForUser = async (req, res) => {
 const getCourseByIdForUser = async (req, res) => {
 	const { id } = req.params;
 	try {
-		const userTingkatan = req.user.tingkatan;
-		const userLevel = tingkatanHierarchy[userTingkatan] || 0;
-
-		const course = await Course.findByPk(id, {
-			include: { model: Materi },
-		});
-
+		const course = await Course.findByPk(id, { include: { model: Materi } });
 		if (course) {
-			const courseData = course.get({ plain: true });
-			courseData.Materi = processMateriLockStatus(course.Materi, userLevel);
-			res.status(200).json(courseData);
+			res.status(200).json(course);
 		} else {
 			res.status(404).json({ message: "Course not found" });
 		}

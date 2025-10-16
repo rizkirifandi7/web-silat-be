@@ -33,42 +33,15 @@ const getMateriById = async (req, res) => {
 // FUNGSI BARU (Dengan Logika Penguncian untuk Pengguna)
 // =================================================================================
 
-// Definisikan hierarki tingkatan
-const tingkatanHierarchy = {
-	"Belum punya": 0,
-	"LULUS Binfistal": 1,
-	"Sabuk Putih": 2,
-	"Sabuk Kuning": 3,
-	"Sabuk Hijau": 4,
-	"Sabuk Merah": 5,
-	"Sabuk Hitam Wiraga 1": 6,
-	"Sabuk Hitam Wiraga 2": 7,
-	"Sabuk Hitam Wiraga 3": 8,
-};
+// No server-side locking: user endpoints will return full materi data and frontend will apply filter.
 
 /**
  * @description (BARU) Mengambil semua materi dengan status 'isLocked' untuk pengguna.
  */
 const getAllMateriForUser = async (req, res) => {
 	try {
-		const userTingkatan = req.user.tingkatan;
-		const userLevel = tingkatanHierarchy[userTingkatan] || 0;
-
 		const materiList = await Materi.findAll();
-
-		const materiWithLockStatus = materiList.map((materi) => {
-			const materiData = materi.get({ plain: true });
-			const materiLevel = tingkatanHierarchy[materiData.tingkatan];
-			const isLocked = userLevel < materiLevel;
-
-			materiData.isLocked = isLocked;
-			if (isLocked) {
-				materiData.konten = null;
-			}
-			return materiData;
-		});
-
-		res.status(200).json(materiWithLockStatus);
+		res.status(200).json(materiList);
 	} catch (error) {
 		res
 			.status(500)
@@ -82,17 +55,8 @@ const getAllMateriForUser = async (req, res) => {
 const getMateriByIdForUser = async (req, res) => {
 	const { id } = req.params;
 	try {
-		const userTingkatan = req.user.tingkatan;
-		const userLevel = tingkatanHierarchy[userTingkatan] || 0;
-
 		const materi = await Materi.findByPk(id);
 		if (materi) {
-			const materiLevel = tingkatanHierarchy[materi.tingkatan];
-			if (userLevel < materiLevel) {
-				return res
-					.status(403)
-					.json({ message: "Access denied. Your level is not high enough." });
-			}
 			res.status(200).json(materi);
 		} else {
 			res.status(404).json({ message: "Materi not found" });
