@@ -77,6 +77,9 @@ const processMateriLockStatus = (materiList, userLevel) => {
 const getAllCoursesForUser = async (req, res) => {
 	try {
 		const userTingkatan = req.user.tingkatan_sabuk;
+
+		console.log("User Tingkatan:", userTingkatan);
+
 		const userLevel = tingkatanHierarchy[userTingkatan] || 0;
 
 		const courses = await Course.findAll({

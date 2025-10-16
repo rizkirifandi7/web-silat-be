@@ -7,6 +7,7 @@ const getAllSeminars = async (req, res) => {
 		const seminars = await Seminar.findAll();
 		res.status(200).json(seminars);
 	} catch (error) {
+		console.error(error.stack || error);
 		res.status(500).json({ message: error.message });
 	}
 };
@@ -21,6 +22,7 @@ const getSeminarById = async (req, res) => {
 			res.status(404).json({ message: "Seminar not found" });
 		}
 	} catch (error) {
+		console.error(error.stack || error);
 		res.status(500).json({ message: error.message });
 	}
 };
@@ -79,6 +81,7 @@ const createSeminar = async (req, res) => {
 		});
 		res.status(201).json(newSeminar);
 	} catch (error) {
+		console.error(error.stack || error);
 		res.status(500).json({ message: error.message });
 	}
 };
@@ -141,6 +144,7 @@ const updateSeminar = async (req, res) => {
 		});
 		res.status(200).json(seminar);
 	} catch (error) {
+		console.error(error.stack || error);
 		res.status(500).json({ message: error.message });
 	}
 };
@@ -165,6 +169,7 @@ const deleteSeminar = async (req, res) => {
 		await seminar.destroy();
 		res.status(200).json({ message: "Seminar deleted successfully" });
 	} catch (error) {
+		console.error(error.stack || error);
 		res.status(500).json({ message: error.message });
 	}
 };
