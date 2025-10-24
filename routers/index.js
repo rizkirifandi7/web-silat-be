@@ -18,6 +18,6 @@ router.use("/katalog", katalogRoutes);
 router.use("/order", orderRoutes);
 router.use("/galeri", galeriRoutes);
 router.use("/materi", materiRoutes);
-router.use("/rekening", require("./rekening"));
+router.use("/rekening", rekeningRoutes);
 
 module.exports = router;
