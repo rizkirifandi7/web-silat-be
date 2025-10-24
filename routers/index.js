@@ -8,6 +8,7 @@ const galeriRoutes = require("./galeri");
 const materiRoutes = require("./materi");
 const seminarRoutes = require("./seminar");
 const courseRoutes = require("./course");
+const rekeningRoutes = require("./rekening");
 
 router.use("/course", courseRoutes);
 router.use("/seminar", seminarRoutes);
@@ -17,5 +18,6 @@ router.use("/katalog", katalogRoutes);
 router.use("/order", orderRoutes);
 router.use("/galeri", galeriRoutes);
 router.use("/materi", materiRoutes);
+router.use("/rekening", require("./rekening"));
 
 module.exports = router;
