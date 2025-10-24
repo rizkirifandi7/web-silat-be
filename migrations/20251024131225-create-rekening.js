@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       logo: {
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       namaBank: {
         type: Sequelize.STRING

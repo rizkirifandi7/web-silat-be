@@ -1,6 +1,6 @@
-const { Rekening } = require('../models');
-const fs = require('fs');
-const cloudinary = require('../middleware/cloudinary');
+const { Rekening } = require("../models");
+const fs = require("fs");
+const cloudinary = require("../middleware/cloudinary");
 
 const getAllRekening = async (req, res) => {
   try {
@@ -26,10 +26,23 @@ const getRekeningById = async (req, res) => {
 };
 
 const createRekening = async (req, res) => {
-  const { logo, namaBank, noRekening } = req.body;
+  const { namaBank, noRekening } = req.body;
   try {
+    let gambarUrl = null;
+    if (req.file) {
+      const result = await cloudinary.uploader.upload(req.file.path, {
+        folder: 'rekening',
+        use_filename: true,
+        unique_filename: false,
+        overwrite: true,
+      });
+
+      gambarUrl = result.secure_url;
+      // Hapus file lokal setelah upload berhasil
+      fs.unlinkSync(req.file.path);
+    }
     const newRekening = await Rekening.create({
-      logo,
+      logo: gambarUrl,
       namaBank,
       noRekening,
     });
@@ -41,19 +54,41 @@ const createRekening = async (req, res) => {
 
 const updateRekening = async (req, res) => {
   const { id } = req.params;
-  const { logo, namaBank, noRekening } = req.body;
+  const { namaBank, noRekening } = req.body;
   try {
     const rekening = await Rekening.findByPk(id);
     if (!rekening) {
       return res.status(404).json({ message: 'Rekening not found' });
     }
 
-    rekening.logo = logo || rekening.logo;
-    rekening.namaBank = namaBank || rekening.namaBank;
-    rekening.noRekening = noRekening || rekening.noRekening;
+    if(req.file) {
+      try{
+        if(rekening.logo) {
+          const publicId = rekening.logo.split('/').pop().split('.')[0];
+          await cloudinary.uploader.destroy(`rekening/${publicId}`);
+        }
 
-    await rekening.save();
-    res.status(200).json(rekening);
+        const result = await cloudinary.uploader.upload(req.file.path, {
+          folder: 'rekening',
+          use_filename: true,
+          unique_filename: false,
+          overwrite: true,
+        });
+        req.body.logo = result.secure_url;
+      } catch(uploadError) {
+        fs.unlinkSync(req.file.path);
+        return res.status(500).json({ message: 'Error uploading logo', uploadError });
+      }
+      rekening.set(req.body);
+      await rekening.save();
+      // Hapus file lokal setelah save berhasil
+      fs.unlinkSync(req.file.path);
+    } else {
+      rekening.namaBank = namaBank;
+      rekening.noRekening = noRekening;
+      await rekening.save();
+      res.status(200).json(rekening);
+    }
   } catch (error) {
     res.status(500).json({ message: 'Error updating rekening', error });
   }
