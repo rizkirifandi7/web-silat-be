@@ -1,28 +1,43 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const {
+	unauthorizedResponse,
+	forbiddenResponse,
+} = require("../utils/response");
 dotenv.config();
 
+/**
+ * Verify JWT Token Middleware (OPTIMIZED)
+ * Validates Authorization header and extracts user data
+ */
 const verifyToken = (req, res, next) => {
 	const authHeader = req.headers.authorization;
 
+	// Check if authorization header exists
 	if (!authHeader) {
-		return res.status(401).json({ message: "Unauthorized" });
+		return unauthorizedResponse(res, "No token provided");
 	}
 
-	if (authHeader) {
-		const token = authHeader.split(" ")[1];
+	// Extract token from "Bearer <token>" format
+	const token = authHeader.split(" ")[1];
 
-		jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-			if (err) {
-				return res.sendStatus(403);
+	if (!token) {
+		return unauthorizedResponse(res, "Invalid token format");
+	}
+
+	// Verify token
+	jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+		if (err) {
+			if (err.name === "TokenExpiredError") {
+				return unauthorizedResponse(res, "Token has expired");
 			}
+			return forbiddenResponse(res, "Invalid token");
+		}
 
-			req.user = user;
-			next();
-		});
-	} else {
-		res.sendStatus(401);
-	}
+		// Attach user data to request object
+		req.user = user;
+		next();
+	});
 };
 
 module.exports = verifyToken;

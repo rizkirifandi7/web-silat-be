@@ -1,192 +1,252 @@
+/**
+ * OPTIMIZED Anggota Controller
+ * - Uses catchAsync for error handling
+ * - Uses standardized responses
+ * - Uses custom error classes
+ * - Uses cloudinary-helper for auto-cleanup
+ * - Uses dbService for database operations
+ * - Pagination support
+ */
+
 const { Anggota } = require("../models");
-const cloudinary = require("../middleware/cloudinary");
-const fs = require("fs");
 const bcrypt = require("bcrypt");
+const { catchAsync } = require("../middleware/errorHandler");
+const {
+	successResponse,
+	createdResponse,
+	notFoundResponse,
+	paginatedResponse,
+} = require("../utils/response");
+const { NotFoundError, BadRequestError } = require("../utils/errors");
+const { uploadToCloudinaryAndDelete } = require("../utils/cloudinary-helper");
+const {
+	getPaginated,
+	getById,
+	updateRecord,
+	deleteRecord,
+} = require("../utils/dbService");
+const logger = require("../config/logger");
+const { Op } = require("sequelize");
 
-const getAllAnggota = async (req, res) => {
-	try {
-		const anggota = await Anggota.findAll({
-			where: { role: "anggota" },
-			attributes: { exclude: ["password"] },
-		});
-		res.status(200).json(anggota);
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving anggota", error });
+/**
+ * Get all members with pagination and search (OPTIMIZED)
+ */
+const getAllAnggota = catchAsync(async (req, res) => {
+	const { page = 1, limit = 10, search, role = "anggota" } = req.query;
+
+	const where = { role };
+
+	// Add search functionality
+	if (search) {
+		where[Op.or] = [
+			{ nama: { [Op.iLike]: `%${search}%` } },
+			{ email: { [Op.iLike]: `%${search}%` } },
+			{ id_token: { [Op.iLike]: `%${search}%` } },
+		];
 	}
-};
 
-const getAllAnggotaAdmin = async (req, res) => {
-	try {
-		const anggota = await Anggota.findAll({
-			where: { role: "admin" },
-			attributes: { exclude: ["password"] },
-		});
-		res.status(200).json(anggota);
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving anggota", error });
+	const result = await getPaginated(Anggota, {
+		page,
+		limit,
+		where,
+		attributes: { exclude: ["password"] },
+		order: [["createdAt", "DESC"]],
+	});
+
+	return paginatedResponse(
+		res,
+		result.data,
+		result.pagination,
+		"Members retrieved successfully"
+	);
+});
+
+/**
+ * Get all admin members (OPTIMIZED)
+ */
+const getAllAnggotaAdmin = catchAsync(async (req, res) => {
+	const { page = 1, limit = 10, search } = req.query;
+
+	const where = { role: "admin" };
+
+	if (search) {
+		where[Op.or] = [
+			{ nama: { [Op.iLike]: `%${search}%` } },
+			{ email: { [Op.iLike]: `%${search}%` } },
+		];
 	}
-};
 
-const getAnggotaById = async (req, res) => {
+	const result = await getPaginated(Anggota, {
+		page,
+		limit,
+		where,
+		attributes: { exclude: ["password"] },
+		order: [["createdAt", "DESC"]],
+	});
+
+	return paginatedResponse(
+		res,
+		result.data,
+		result.pagination,
+		"Admin members retrieved successfully"
+	);
+});
+
+/**
+ * Get member by ID (OPTIMIZED)
+ */
+const getAnggotaById = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	try {
-		const anggota = await Anggota.findByPk(id, {
-			attributes: { exclude: ["password"] },
-		});
-		if (anggota) {
-			res.status(200).json(anggota);
-		} else {
-			res.status(404).json({ message: "Anggota not found" });
-		}
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving anggota", error });
-	}
-};
 
-const getAnggotaByIdToken = async (req, res) => {
+	const anggota = await getById(Anggota, id, {
+		attributes: { exclude: ["password"] },
+	});
+
+	if (!anggota) {
+		throw new NotFoundError("Anggota not found");
+	}
+
+	return successResponse(res, anggota, "Member retrieved successfully");
+});
+
+/**
+ * Get member by ID Token (OPTIMIZED)
+ */
+const getAnggotaByIdToken = catchAsync(async (req, res) => {
 	const { id_token } = req.params;
-	try {
-		const anggota = await Anggota.findOne({
-			where: { id_token },
-			attributes: { exclude: ["password"] },
-		});
-		if (anggota) {
-			res.status(200).json(anggota);
-		} else {
-			res.status(404).json({ message: "Anggota not found" });
-		}
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving anggota", error });
-	}
-};
 
-const updateAnggota = async (req, res) => {
+	const anggota = await Anggota.findOne({
+		where: { id_token },
+		attributes: { exclude: ["password"] },
+	});
+
+	if (!anggota) {
+		throw new NotFoundError("Anggota not found");
+	}
+
+	return successResponse(res, anggota, "Member retrieved successfully");
+});
+
+/**
+ * Update member (OPTIMIZED)
+ */
+const updateAnggota = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	try {
-		const anggota = await Anggota.findByPk(id);
-		if (!anggota) {
-			return res.status(404).json({ message: "Anggota not found" });
-		}
+	const updateData = { ...req.body };
 
-		// Handle file upload
-		if (req.file) {
-			try {
-				if (anggota.foto) {
-					const publicId = anggota.foto.split("/").pop().split(".")[0];
-					await cloudinary.uploader.destroy(`anggota_fotos/${publicId}`);
-				}
-				const result = await cloudinary.uploader.upload(req.file.path, {
-					folder: "anggota_fotos",
-				});
-				req.body.foto = result.secure_url;
-				fs.unlinkSync(req.file.path);
-			} catch (uploadError) {
-				fs.unlinkSync(req.file.path);
-				return res
-					.status(500)
-					.json({ message: "Error uploading to Cloudinary", uploadError });
-			}
-		}
-
-		const {
-			nama,
-			email,
-			password,
-			role,
-			id_token,
-			tempat_lahir,
-			tanggal_lahir,
-			jenis_kelamin,
-			alamat,
-			agama,
-			no_telepon,
-			angkatan_unit,
-			status_keanggotaan,
-			status_perguruan,
-			tingkatan_sabuk,
-		} = req.body;
-
-		// Prepare update data
-		const updateData = {
-			nama,
-			email,
-			role,
-			id_token,
-			tempat_lahir,
-			tanggal_lahir,
-			jenis_kelamin,
-			alamat,
-			agama,
-			no_telepon,
-			angkatan_unit,
-			status_keanggotaan,
-			status_perguruan,
-			tingkatan_sabuk,
-			foto: req.body.foto || anggota.foto,
-		};
-
-		// Hash password if provided
-		if (password) {
-			updateData.password = await bcrypt.hash(password, 10);
-		}
-
-		// Update data Anggota
-		await anggota.update(updateData);
-
-		// Ambil data terbaru untuk response
-		const updatedAnggota = await Anggota.findByPk(id);
-
-		res.status(200).json(updatedAnggota);
-	} catch (error) {
-		res.status(500).json({ message: "Error updating anggota", error });
+	// Check if member exists
+	const anggota = await Anggota.findByPk(id);
+	if (!anggota) {
+		throw new NotFoundError("Anggota not found");
 	}
-};
 
-const deleteAnggota = async (req, res) => {
-	const { id } = req.params;
-	try {
-		const anggota = await Anggota.findByPk(id);
-		if (anggota) {
-			// Hapus foto dari Cloudinary jika ada
-			if (anggota.foto) {
-				const publicId = anggota.foto.split("/").pop().split(".")[0];
-				await cloudinary.uploader.destroy(`anggota_fotos/${publicId}`);
-			}
-
-			// Hapus data Anggota
-			await anggota.destroy();
-
-			res.status(200).json({ message: "Anggota deleted successfully" });
-		} else {
-			res.status(404).json({ message: "Anggota not found" });
-		}
-	} catch (error) {
-		res.status(500).json({ message: "Error deleting anggota", error });
+	// Handle password update separately
+	if (updateData.password) {
+		updateData.password = await bcrypt.hash(updateData.password, 10);
 	}
-};
 
-const getProfile = async (req, res) => {
-	const userId = req.user.id;
-	try {
-		const anggota = await Anggota.findByPk(userId, {
-			attributes: { exclude: ["password"] },
+	// Handle image upload
+	if (req.file) {
+		const result = await uploadToCloudinaryAndDelete(req.file.path, {
+			folder: "pencak-silat/anggota/fotos",
 		});
-		if (anggota) {
-			res.status(200).json(anggota);
-		} else {
-			res.status(404).json({ message: "Anggota not found" });
-		}
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving anggota", error });
+		updateData.foto = result.secure_url;
 	}
-};
+
+	// Update member
+	await anggota.update(updateData);
+
+	// Get updated data without password
+	const { password: _, ...anggotaData } = anggota.toJSON();
+
+	logger.info("Member updated", { id, updatedBy: req.user?.id });
+
+	return successResponse(res, anggotaData, "Member updated successfully");
+});
+
+/**
+ * Delete member (OPTIMIZED)
+ */
+const deleteAnggota = catchAsync(async (req, res) => {
+	const { id } = req.params;
+
+	const deleted = await deleteRecord(Anggota, id);
+
+	if (!deleted) {
+		throw new NotFoundError("Anggota not found");
+	}
+
+	logger.info("Member deleted", { id, deletedBy: req.user?.id });
+
+	return successResponse(res, null, "Member deleted successfully");
+});
+
+/**
+ * Get member statistics (NEW)
+ */
+const getAnggotaStats = catchAsync(async (req, res) => {
+	const totalMembers = await Anggota.count({ where: { role: "anggota" } });
+	const totalAdmins = await Anggota.count({ where: { role: "admin" } });
+	const activeMembers = await Anggota.count({
+		where: {
+			role: "anggota",
+			status_keanggotaan: "aktif",
+		},
+	});
+
+	const stats = {
+		totalMembers,
+		totalAdmins,
+		activeMembers,
+		inactiveMembers: totalMembers - activeMembers,
+	};
+
+	return successResponse(res, stats, "Statistics retrieved successfully");
+});
+
+/**
+ * Bulk update member status (NEW)
+ */
+const bulkUpdateStatus = catchAsync(async (req, res) => {
+	const { memberIds, status } = req.body;
+
+	if (!memberIds || !Array.isArray(memberIds) || memberIds.length === 0) {
+		throw new BadRequestError("Member IDs are required");
+	}
+
+	if (!["aktif", "tidak aktif", "alumni"].includes(status)) {
+		throw new BadRequestError("Invalid status");
+	}
+
+	const [updatedCount] = await Anggota.update(
+		{ status_keanggotaan: status },
+		{
+			where: {
+				id: memberIds,
+			},
+		}
+	);
+
+	logger.info("Bulk member status update", {
+		count: updatedCount,
+		status,
+		updatedBy: req.user?.id,
+	});
+
+	return successResponse(
+		res,
+		{ updatedCount },
+		`${updatedCount} members updated successfully`
+	);
+});
 
 module.exports = {
 	getAllAnggota,
 	getAllAnggotaAdmin,
 	getAnggotaById,
+	getAnggotaByIdToken,
 	updateAnggota,
 	deleteAnggota,
-	getAnggotaByIdToken,
-	getProfile,
+	getAnggotaStats,
+	bulkUpdateStatus,
 };

@@ -1,122 +1,209 @@
+/**
+ * OPTIMIZED Galeri Controller
+ * - Uses catchAsync for error handling
+ * - Uses standardized responses
+ * - Uses cloudinary-helper for auto-cleanup
+ * - Pagination and search support
+ */
+
 const { Galeri } = require("../models");
-const fs = require("fs");
-const cloudinary = require("../middleware/cloudinary");
+const { catchAsync } = require("../middleware/errorHandler");
+const {
+	successResponse,
+	createdResponse,
+	notFoundResponse,
+	paginatedResponse,
+} = require("../utils/response");
+const { NotFoundError } = require("../utils/errors");
+const { uploadToCloudinaryAndDelete } = require("../utils/cloudinary-helper");
+const {
+	getPaginated,
+	getById,
+	createRecord,
+	updateRecord,
+	deleteRecord,
+} = require("../utils/dbService");
+const logger = require("../config/logger");
+const { Op } = require("sequelize");
 
-const getAllGaleri = async (req, res) => {
-	try {
-		const galeri = await Galeri.findAll();
-		res.status(200).json(galeri);
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving galeri", error });
+/**
+ * Get all galeri with pagination and search (OPTIMIZED)
+ */
+const getAllGaleri = catchAsync(async (req, res) => {
+	const { page = 1, limit = 10, search } = req.query;
+
+	const where = {};
+
+	if (search) {
+		where[Op.or] = [
+			{ judul: { [Op.iLike]: `%${search}%` } },
+			{ deskripsi: { [Op.iLike]: `%${search}%` } },
+		];
 	}
-};
 
-const getGaleriById = async (req, res) => {
+	const result = await getPaginated(Galeri, {
+		page,
+		limit,
+		where,
+		order: [["createdAt", "DESC"]],
+	});
+
+	return paginatedResponse(
+		res,
+		result.data,
+		result.pagination,
+		"Gallery items retrieved successfully"
+	);
+});
+
+/**
+ * Get galeri by ID (OPTIMIZED)
+ */
+const getGaleriById = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	try {
-		const galeri = await Galeri.findByPk(id);
-		if (galeri) {
-			res.status(200).json(galeri);
-		} else {
-			res.status(404).json({ message: "Galeri not found" });
-		}
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving galeri", error });
+
+	const galeri = await getById(Galeri, id);
+
+	if (!galeri) {
+		throw new NotFoundError("Gallery item not found");
 	}
-};
 
-const createGaleri = async (req, res) => {
-	const { judul, deskripsi } = req.body;
-	try {
-		let gambarUrl = null;
-		if (req.file) {
-			const result = await cloudinary.uploader.upload(req.file.path, {
-				folder: "galeri",
-				use_filename: true,
-				unique_filename: false,
-				overwrite: true,
-			});
+	return successResponse(res, galeri, "Gallery item retrieved successfully");
+});
 
-			gambarUrl = result.secure_url;
-			// Hapus file lokal setelah upload berhasil
-			fs.unlinkSync(req.file.path);
-		}
-		const newGaleri = await Galeri.create({
-			gambar: gambarUrl,
-			judul,
-			deskripsi,
+/**
+ * Create galeri (OPTIMIZED)
+ */
+const createGaleri = catchAsync(async (req, res) => {
+	const { judul, deskripsi, gambar } = req.body;
+
+	let gambarUrl = gambar || null; // Use gambar from body if provided (upload-first approach)
+
+	// Fallback: Handle image upload if file provided (backward compatible)
+	if (req.file) {
+		const result = await uploadToCloudinaryAndDelete(req.file.path, {
+			folder: "pencak-silat/galeri",
 		});
-		res.status(201).json(newGaleri);
-	} catch (error) {
-		res.status(500).json({ message: "Error creating galeri", error });
+		gambarUrl = result.secure_url;
 	}
-};
 
-const updateGaleri = async (req, res) => {
+	const newGaleri = await createRecord(Galeri, {
+		gambar: gambarUrl,
+		judul,
+		deskripsi,
+	});
+
+	logger.info("Gallery item created", {
+		galeriId: newGaleri.id,
+		createdBy: req.user?.id,
+	});
+
+	return createdResponse(res, newGaleri, "Gallery item created successfully");
+});
+
+/**
+ * Update galeri (OPTIMIZED)
+ */
+const updateGaleri = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	const { judul, deskripsi } = req.body;
-	try {
-		const galeri = await Galeri.findByPk(id);
-		if (!galeri) {
-			return res.status(404).json({ message: "Galeri not found" });
-		}
+	const { judul, deskripsi, gambar } = req.body;
 
-		// Handle file upload
-		if (req.file) {
-			try {
-				if (galeri.gambar) {
-					const publicId = galeri.gambar.split("/").pop().split(".")[0];
-					await cloudinary.uploader.destroy(`galeri/${publicId}`);
-				}
-				const result = await cloudinary.uploader.upload(req.file.path, {
-					folder: "galeri",
-					use_filename: true,
-					unique_filename: false,
-					overwrite: true,
-				});
-				req.body.gambar = result.secure_url;
-			} catch (uploadError) {
-				fs.unlinkSync(req.file.path);
-				return res
-					.status(500)
-					.json({ message: "Error uploading image", uploadError });
-			}
-			galeri.set(req.body);
-			await galeri.save();
-			// Hapus file lokal setelah save berhasil
-			fs.unlinkSync(req.file.path);
-
-			res.status(200).json(galeri);
-		} else {
-			// Jika tidak ada file yang diunggah, perbarui hanya judul dan deskripsi
-			galeri.judul = judul;
-			galeri.deskripsi = deskripsi;
-			await galeri.save();
-			res.status(200).json(galeri);
-		}
-	} catch (error) {
-		res.status(500).json({ message: "Error updating galeri", error });
+	// Check if galeri exists
+	const galeri = await Galeri.findByPk(id);
+	if (!galeri) {
+		throw new NotFoundError("Gallery item not found");
 	}
-};
 
-const deleteGaleri = async (req, res) => {
+	const updateData = { judul, deskripsi };
+
+	// Use gambar from body if provided (upload-first approach)
+	if (gambar) {
+		updateData.gambar = gambar;
+	}
+
+	// Fallback: Handle image upload if file provided (backward compatible)
+	if (req.file) {
+		const result = await uploadToCloudinaryAndDelete(req.file.path, {
+			folder: "pencak-silat/galeri",
+		});
+		updateData.gambar = result.secure_url;
+	}
+
+	// Update galeri
+	await galeri.update(updateData);
+
+	logger.info("Gallery item updated", {
+		galeriId: id,
+		updatedBy: req.user?.id,
+	});
+
+	return successResponse(res, galeri, "Gallery item updated successfully");
+});
+
+/**
+ * Delete galeri (OPTIMIZED)
+ */
+const deleteGaleri = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	try {
-		const galeri = await Galeri.findByPk(id);
-		if (!galeri) {
-			return res.status(404).json({ message: "Galeri not found" });
-		}
-		// Hapus gambar dari Cloudinary jika ada
-		if (galeri.gambar) {
-			const publicId = galeri.gambar.split("/").pop().split(".")[0];
-			await cloudinary.uploader.destroy(`galeri/${publicId}`);
-		}
-		await galeri.destroy();
-		res.status(200).json({ message: "Galeri deleted successfully" });
-	} catch (error) {
-		res.status(500).json({ message: "Error deleting galeri", error });
+
+	const deleted = await deleteRecord(Galeri, id);
+
+	if (!deleted) {
+		throw new NotFoundError("Gallery item not found");
 	}
-};
+
+	logger.info("Gallery item deleted", {
+		galeriId: id,
+		deletedBy: req.user?.id,
+	});
+
+	return successResponse(res, null, "Gallery item deleted successfully");
+});
+
+/**
+ * Get recent galeri items (NEW)
+ */
+const getRecentGaleri = catchAsync(async (req, res) => {
+	const { limit = 6 } = req.query;
+
+	const galeriList = await Galeri.findAll({
+		limit: parseInt(limit),
+		order: [["createdAt", "DESC"]],
+	});
+
+	return successResponse(
+		res,
+		galeriList,
+		"Recent gallery items retrieved successfully"
+	);
+});
+
+/**
+ * Upload Galeri Image (NEW)
+ * Separate endpoint for uploading gallery images before form submission
+ */
+const uploadGaleriImage = catchAsync(async (req, res) => {
+	if (!req.file) {
+		throw new NotFoundError("No image file provided");
+	}
+
+	const result = await uploadToCloudinaryAndDelete(req.file.path, {
+		folder: "pencak-silat/galeri",
+	});
+
+	logger.info("Gallery image uploaded", {
+		imageUrl: result.secure_url,
+		uploadedBy: req.user?.id,
+	});
+
+	return successResponse(
+		res,
+		{
+			gambar_url: result.secure_url,
+		},
+		"Image uploaded successfully"
+	);
+});
 
 module.exports = {
 	getAllGaleri,
@@ -124,4 +211,6 @@ module.exports = {
 	createGaleri,
 	updateGaleri,
 	deleteGaleri,
+	getRecentGaleri,
+	uploadGaleriImage,
 };

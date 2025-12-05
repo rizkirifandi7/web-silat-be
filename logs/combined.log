@@ -1,0 +1,231 @@
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-24 16:08:11","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-24 16:43:23","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-24 16:45:54","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-24 16:47:43","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-24 16:48:49","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-24 16:51:49","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-24 16:53:47","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-24 16:58:31","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-24 17:01:02","userId":1}
+{"courseId":1,"level":"info","message":"Course created","timestamp":"2025-11-24 17:03:35"}
+{"courseId":2,"level":"info","message":"Course created","timestamp":"2025-11-24 17:03:49"}
+{"galeriId":1,"level":"info","message":"Gallery item created","timestamp":"2025-11-24 17:05:29"}
+{"galeriId":"1","level":"info","message":"Gallery item updated","timestamp":"2025-11-24 17:06:04"}
+{"courseId":"2","level":"info","materiId":1,"message":"Materi created","timestamp":"2025-11-24 17:08:06"}
+{"level":"info","materiId":"1","message":"Materi updated","timestamp":"2025-11-24 17:08:24"}
+{"email":"rizki@test.com","id":11,"level":"info","message":"New member registered","timestamp":"2025-11-24 18:01:21"}
+{"email":"rizki@gmail.com","id":12,"level":"info","message":"New member registered","timestamp":"2025-11-24 18:02:34"}
+{"email":"test","level":"warn","message":"Login attempt with non-existent email","timestamp":"2025-11-24 18:33:01"}
+{"email":"test","level":"warn","message":"Login attempt with non-existent email","timestamp":"2025-11-24 18:48:52"}
+{"email":"test","level":"warn","message":"Login attempt with non-existent email","timestamp":"2025-11-24 19:22:20"}
+{"email":"test@test.com","level":"warn","message":"Login attempt with non-existent email","timestamp":"2025-11-24 19:48:09"}
+{"email":"admin@test.com","hasPassword":true,"level":"info","message":"Login attempt received","timestamp":"2025-11-24 20:10:54"}
+{"email":"admin@test.com","level":"info","message":"Looking up user","timestamp":"2025-11-24 20:10:54"}
+{"level":"info","message":"User found, verifying password","timestamp":"2025-11-24 20:10:55","userId":1}
+{"level":"info","message":"Password verified, generating tokens","timestamp":"2025-11-24 20:10:55","userId":1}
+{"level":"info","message":"Storing refresh token","timestamp":"2025-11-24 20:10:55","userId":1}
+{"email":"test@test.com","hasPassword":true,"level":"info","message":"Login attempt received","timestamp":"2025-11-24 20:12:31"}
+{"email":"test@test.com","level":"info","message":"Looking up user","timestamp":"2025-11-24 20:12:31"}
+{"email":"test@test.com","level":"warn","message":"Login attempt with non-existent email","timestamp":"2025-11-24 20:12:31"}
+{"email":"admin@test.com","hasPassword":true,"level":"info","message":"Login attempt received","timestamp":"2025-11-24 20:14:52"}
+{"email":"admin@test.com","level":"info","message":"Looking up user","timestamp":"2025-11-24 20:14:52"}
+{"level":"info","message":"User found, verifying password","timestamp":"2025-11-24 20:14:53","userId":1}
+{"level":"info","message":"Password verified, generating tokens","timestamp":"2025-11-24 20:14:53","userId":1}
+{"email":"admin@test.com","level":"info","message":"Login successful","timestamp":"2025-11-24 20:14:53","userId":1}
+{"email":"admin@test.com","hasPassword":true,"level":"info","message":"Login attempt received","timestamp":"2025-11-24 20:16:57"}
+{"email":"admin@test.com","level":"info","message":"Looking up user","timestamp":"2025-11-24 20:16:57"}
+{"level":"info","message":"User found, verifying password","timestamp":"2025-11-24 20:16:58","userId":1}
+{"level":"info","message":"Password verified, generating tokens","timestamp":"2025-11-24 20:16:58","userId":1}
+{"email":"admin@test.com","level":"info","message":"Login successful","timestamp":"2025-11-24 20:16:58","userId":1}
+{"error":"column \"updated_at\" of relation \"refresh_tokens\" does not exist","level":"error","message":"Failed to store refresh token","timestamp":"2025-11-24 20:16:58","userId":1}
+{"email":"admin@test.com","hasPassword":true,"level":"info","message":"Login attempt received","timestamp":"2025-11-24 20:18:52"}
+{"email":"admin@test.com","level":"info","message":"Looking up user","timestamp":"2025-11-24 20:18:52"}
+{"level":"info","message":"User found, verifying password","timestamp":"2025-11-24 20:18:52","userId":1}
+{"level":"info","message":"Password verified, generating tokens","timestamp":"2025-11-24 20:18:52","userId":1}
+{"email":"admin@test.com","level":"info","message":"Login successful","timestamp":"2025-11-24 20:18:52","userId":1}
+{"level":"info","message":"Refresh token stored","timestamp":"2025-11-24 20:18:52","userId":1}
+{"email":"admin@test.com","hasPassword":true,"level":"info","message":"Login attempt received","timestamp":"2025-11-24 23:27:52"}
+{"email":"admin@test.com","level":"info","message":"Looking up user","timestamp":"2025-11-24 23:27:52"}
+{"level":"info","message":"User found, verifying password","timestamp":"2025-11-24 23:27:52","userId":1}
+{"level":"info","message":"Password verified, generating tokens","timestamp":"2025-11-24 23:27:52","userId":1}
+{"email":"admin@test.com","level":"info","message":"Login successful","timestamp":"2025-11-24 23:27:52","userId":1}
+{"level":"info","message":"Refresh token stored","timestamp":"2025-11-24 23:27:52","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-24 23:34:59","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 00:19:56","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 00:47:00","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 19:41:15","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 19:43:01","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 19:43:47","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 19:47:52","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 20:11:19","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 20:15:40","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 20:16:06","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 20:20:13","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 20:22:14","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-25 20:27:54","userId":21}
+{"galeriId":1,"level":"info","message":"Gallery item created","timestamp":"2025-11-25 20:48:32"}
+{"level":"info","message":"Access token refreshed","timestamp":"2025-11-25 21:05:24","userId":21}
+{"imageUrl":"https://res.cloudinary.com/ds65b8wea/image/upload/v1764079529/pencak-silat/galeri/ewwo7celncosxfbkkpn0.jpg","level":"info","message":"Gallery image uploaded","timestamp":"2025-11-25 21:05:28","uploadedBy":21}
+{"galeriId":2,"level":"info","message":"Gallery item created","timestamp":"2025-11-25 21:05:32"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-26 09:47:12","userId":21}
+{"imageUrl":"https://res.cloudinary.com/ds65b8wea/image/upload/v1764125268/pencak-silat/galeri/zccawsjkyznbkioufqlc.jpg","level":"info","message":"Gallery image uploaded","timestamp":"2025-11-26 09:47:47","uploadedBy":21}
+{"galeriId":"2","level":"info","message":"Gallery item updated","timestamp":"2025-11-26 09:47:50"}
+{"imageUrl":"https://res.cloudinary.com/ds65b8wea/image/upload/v1764125289/pencak-silat/galeri/ouwasahmedu0xplat82f.jpg","level":"info","message":"Gallery image uploaded","timestamp":"2025-11-26 09:48:09","uploadedBy":21}
+{"galeriId":3,"level":"info","message":"Gallery item created","timestamp":"2025-11-26 09:48:11"}
+{"courseId":1,"level":"info","message":"Course created","timestamp":"2025-11-26 09:48:33"}
+{"courseId":"1","level":"info","materiId":1,"message":"Materi created","timestamp":"2025-11-26 09:49:20"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-26 10:04:47","userId":21}
+{"email":"rizki@gmail.com","id":31,"level":"info","message":"New member registered","timestamp":"2025-11-26 10:06:09"}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-26 10:06:23","userId":31}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-26 10:22:05","userId":31}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-26 10:22:42","userId":31}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 16:55:47","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 16:56:21","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 16:58:03","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 16:58:41","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 16:59:11","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 17:01:44","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 17:05:16","userId":21}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 17:05:57","userId":31}
+{"amount":"50000.00","level":"info","message":"Payment created for registration 2","orderId":"INV-EVENT-31-2-1764497341932","timestamp":"2025-11-30 17:09:02"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 17:13:46","userId":21}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 17:13:57","userId":31}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 17:33:46","userId":31}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 18:01:18","userId":31}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 18:03:31","userId":31}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 18:03:57","userId":31}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 18:07:26","userId":31}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 18:11:45","userId":31}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 18:54:19","userId":31}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 18:54:46","userId":21}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 18:57:15","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 18:57:57","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 18:59:28","userId":1}
+{"email":"rizki@gmail.com","id":11,"level":"info","message":"New member registered","timestamp":"2025-11-30 19:00:32"}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 19:00:42","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 19:11:23","userId":1}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 19:12:10","userId":11}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 19:28:42","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 19:29:27","userId":1}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-11-30 19:31:21","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-11-30 19:36:35","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-02 10:11:04","userId":1}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-02 10:13:34","userId":11}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-02 10:47:37","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-02 10:48:10","userId":1}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-02 10:51:38","userId":11}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-02 17:57:33","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-02 17:58:07","userId":1}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-02 17:59:46","userId":11}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-02 18:02:08","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-02 18:03:42","userId":1}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-02 18:12:50","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-02 18:21:03","userId":1}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-02 18:21:36","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-02 18:22:34","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-05 10:46:35","userId":1}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-05 18:20:22","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-05 18:30:39","userId":1}
+{"level":"info","message":"Access token refreshed","timestamp":"2025-12-05 18:51:19","userId":1}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-05 18:53:42","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-05 18:55:29","userId":1}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-05 18:57:11","userId":11}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:49:17"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:49:17"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:49:21"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:49:21"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:50:12"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:50:12"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:50:15"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:50:15"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 19:51:17"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:51:17"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:51:17"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 19:51:20"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:51:20"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:51:20"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 19:52:47"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:52:47"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:52:47"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 19:53:09"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:53:09"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:53:09"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 19:53:25"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:53:25"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:53:25"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 19:53:33"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:53:33"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:53:33"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 19:53:39"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:53:39"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:53:39"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 19:54:21"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:54:21"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:54:21"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 19:58:10"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:58:10"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:58:10"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 19:59:56"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 19:59:56"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 19:59:56"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:00:49"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:00:49"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:00:49"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:02:16"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:02:16"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:02:16"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:02:20"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:02:20"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:02:20"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:02:31"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:02:31"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:02:31"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:02:35"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:02:35"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:02:35"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:03:26"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:03:26"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:03:26"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:05:47"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:05:47"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:05:47"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:06:24"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:06:24"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:06:24"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:07:06"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:07:06"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:07:06"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-05 20:09:05","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:14:55"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:14:55"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:14:55"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:15:06"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:15:06"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:15:06"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:15:37"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:15:37"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:15:37"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-05 20:16:09","userId":1}
+{"level":"error","message":"Error getting donors by campaign: PaymentMethod is not associated to Donation!","name":"SequelizeEagerLoadingError","stack":"SequelizeEagerLoadingError: PaymentMethod is not associated to Donation!\n    at Donation._getIncludedAssociation (C:\\IKI\\PROJECT-CLIENT\\web-silat\\web-pencak-silat-be\\node_modules\\sequelize\\lib\\model.js:565:13)\n    at Donation._validateIncludedElement (C:\\IKI\\PROJECT-CLIENT\\web-silat\\web-pencak-silat-be\\node_modules\\sequelize\\lib\\model.js:502:53)\n    at C:\\IKI\\PROJECT-CLIENT\\web-silat\\web-pencak-silat-be\\node_modules\\sequelize\\lib\\model.js:421:37\n    at Array.map (<anonymous>)\n    at Donation._validateIncludedElements (C:\\IKI\\PROJECT-CLIENT\\web-silat\\web-pencak-silat-be\\node_modules\\sequelize\\lib\\model.js:417:39)\n    at Donation.aggregate (C:\\IKI\\PROJECT-CLIENT\\web-silat\\web-pencak-silat-be\\node_modules\\sequelize\\lib\\model.js:1252:12)\n    at Donation.count (C:\\IKI\\PROJECT-CLIENT\\web-silat\\web-pencak-silat-be\\node_modules\\sequelize\\lib\\model.js:1306:31)\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at async Promise.all (index 0)\n    at async Donation.findAndCountAll (C:\\IKI\\PROJECT-CLIENT\\web-silat\\web-pencak-silat-be\\node_modules\\sequelize\\lib\\model.js:1322:27)","timestamp":"2025-12-05 20:27:00"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:31:44"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:31:44"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:31:44"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:32:32"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:32:32"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:32:32"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:32:39"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:32:39"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:32:39"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:32:50"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:32:50"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:32:50"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:33:24"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:33:24"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:33:24"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:35:43"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:35:43"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:35:43"}
+{"level":"info","message":"Access token refreshed","timestamp":"2025-12-05 20:36:04","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-05 20:36:26"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-05 20:36:26"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-05 20:36:26"}

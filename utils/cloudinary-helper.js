@@ -15,12 +15,8 @@ const uploadToCloudinaryAndDelete = async (filePath, options = {}) => {
 		// Delete temporary file
 		try {
 			await fs.unlink(filePath);
-			console.log(`Temporary file deleted: ${filePath}`);
 		} catch (unlinkError) {
-			console.error(
-				`Error deleting temporary file ${filePath}:`,
-				unlinkError.message
-			);
+			// Silently ignore temporary file deletion errors
 		}
 
 		return result;
@@ -28,12 +24,8 @@ const uploadToCloudinaryAndDelete = async (filePath, options = {}) => {
 		// Try to delete temporary file even if upload fails
 		try {
 			await fs.unlink(filePath);
-			console.log(`Temporary file deleted after error: ${filePath}`);
 		} catch (unlinkError) {
-			console.error(
-				`Error deleting temporary file ${filePath}:`,
-				unlinkError.message
-			);
+			// Silently ignore temporary file deletion errors
 		}
 
 		throw error;
@@ -43,3 +35,4 @@ const uploadToCloudinaryAndDelete = async (filePath, options = {}) => {
 module.exports = {
 	uploadToCloudinaryAndDelete,
 };
+

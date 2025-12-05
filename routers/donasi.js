@@ -11,12 +11,8 @@ const paymentMethodController = require("../controllers/donasi/paymentmethod");
 // ============== CAMPAIGN ROUTES ==============
 
 // Public routes
-router.get("/campaigns", campaignController.getAllCampaigns);
-router.get("/campaigns/:slug", campaignController.getCampaignBySlug);
-router.get(
-	"/campaigns/:id/statistics",
-	campaignController.getCampaignStatistics
-);
+router.get("/campaigns", campaignController.getAllCampaignsOptimized);
+router.get("/campaigns/:slug", campaignController.getCampaignBySlugOptimized);
 
 // Protected routes (require authentication)
 // Create and update support both JSON and multipart/form-data
@@ -34,23 +30,27 @@ router.post(
 	"/campaigns",
 	verifyToken,
 	optionalMulter,
-	campaignController.createCampaign
+	campaignController.createCampaignOptimized
 );
 
 router.put(
 	"/campaigns/:id",
 	verifyToken,
 	optionalMulter,
-	campaignController.updateCampaign
+	campaignController.updateCampaignOptimized
 );
 
-router.delete("/campaigns/:id", verifyToken, campaignController.deleteCampaign);
+router.delete(
+	"/campaigns/:id",
+	verifyToken,
+	campaignController.deleteCampaignOptimized
+);
 
 // Upload campaign image
 router.post(
 	"/campaigns/upload",
 	verifyToken,
-	multer.fields([{ name: "image", maxCount: 1 }]),
+	multer.single("image"),
 	campaignController.uploadCampaignImage
 );
 
@@ -71,6 +71,34 @@ router.post(
 
 // Protected routes (admin)
 router.get("/donations", verifyToken, donationController.getDonations);
+router.get(
+	"/donations/recent",
+	verifyToken,
+	donationController.getRecentDonations
+);
+router.get(
+	"/donations/statistics",
+	verifyToken,
+	donationController.getDonationStatistics
+);
+router.get(
+	"/donations/export",
+	verifyToken,
+	donationController.exportDonations
+);
+router.get("/donations/:id", verifyToken, donationController.getDonationById);
+router.patch(
+	"/donations/:id/status",
+	verifyToken,
+	donationController.updateDonationStatus
+);
+
+// Get donors by campaign
+router.get(
+	"/campaigns/:campaign_id/donors",
+	verifyToken,
+	donationController.getDonorsByCampaign
+);
 
 // ============== PAYMENT METHOD ROUTES ==============
 

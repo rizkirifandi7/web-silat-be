@@ -3,6 +3,7 @@ const {
 	createSnapTransaction,
 	getTransactionStatus,
 } = require("../../utils/payment");
+const logger = require("../../config/logger");
 
 /**
  * Create Donation & Payment
@@ -66,9 +67,7 @@ const createDonation = async (req, res) => {
 			payment_channel: paymentMethod.channel,
 			transaction_id: transactionId,
 			payment_status: "pending",
-		});
-
-		// Prepare Midtrans parameters
+		}); // Prepare Midtrans parameters
 		const midtransParams = {
 			transaction_details: {
 				order_id: transactionId,
@@ -119,7 +118,7 @@ const createDonation = async (req, res) => {
 			},
 		});
 	} catch (error) {
-		console.error("Create Donation Error:", error);
+		logger.error("Create Donation Error:", error);
 		res.status(500).json({
 			status: "error",
 			message: "Failed to create donation",
@@ -175,7 +174,7 @@ const handleWebhook = async (req, res) => {
 
 		res.json({ status: "success" });
 	} catch (error) {
-		console.error("Webhook Error:", error);
+		logger.error("Webhook Error:", error);
 		res.status(500).json({ status: "error" });
 	}
 };
@@ -208,11 +207,7 @@ const checkStatus = async (req, res) => {
 		// Query Midtrans for real-time status
 		try {
 			const midtransStatus = await getTransactionStatus(transaction_id);
-			const transactionStatus = midtransStatus.transaction_status;
-
-			console.log("Midtrans Status:", transactionStatus);
-
-			// Update donation status if changed
+			const transactionStatus = midtransStatus.transaction_status; // Update donation status if changed
 			let shouldUpdate = false;
 			let newStatus = donation.payment_status;
 
@@ -268,7 +263,7 @@ const checkStatus = async (req, res) => {
 			data: { donation },
 		});
 	} catch (error) {
-		console.error("Check Status Error:", error);
+		logger.error("Check Status Error:", error);
 		res.status(500).json({
 			status: "error",
 			message: "Failed to check status",

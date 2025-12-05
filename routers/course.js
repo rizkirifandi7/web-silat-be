@@ -11,16 +11,16 @@ const {
 	getAllMateriByCourseId,
 
 	// Fungsi utilitas lainnya
-	getAllCoursesNoMateri,
 	createCourse,
 	updateCourse,
 	deleteCourse,
+	getCourseStats,
 } = require("../controllers/course");
 
 const verifyToken = require("../middleware/verifyToken");
 
 router.get("/", getAllCourses);
-router.get("/no-materi", getAllCoursesNoMateri);
+router.get("/stats", verifyToken, getCourseStats); // NEW - Statistics
 router.get("/anggota", verifyToken, getAllCoursesForUser);
 router.get("/anggota/:id", verifyToken, getCourseByIdForUser);
 router.get("/materi/:id_course", getAllMateriByCourseId);

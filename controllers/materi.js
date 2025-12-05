@@ -1,187 +1,299 @@
-const { Materi } = require("../models");
-const cloudinary = require("../middleware/cloudinary");
-const fs = require("fs");
+/**
+ * OPTIMIZED Materi Controller
+ * - Uses catchAsync for error handling
+ * - Uses standardized responses
+ * - Uses cloudinary-helper for auto-cleanup
+ * - Better file upload handling
+ */
 
-// =================================================================================
-// FUNGSI ORIGINAL (Untuk Admin atau akses tanpa filter)
-// =================================================================================
-
-const getAllMateri = async (req, res) => {
-	try {
-		const materi = await Materi.findAll();
-		res.status(200).json(materi);
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving materi", error });
-	}
-};
-
-const getMateriById = async (req, res) => {
-	const { id } = req.params;
-	try {
-		const materi = await Materi.findByPk(id);
-		if (materi) {
-			res.status(200).json(materi);
-		} else {
-			res.status(404).json({ message: "Materi not found" });
-		}
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving materi", error });
-	}
-};
-
-// =================================================================================
-// FUNGSI BARU (Dengan Logika Penguncian untuk Pengguna)
-// =================================================================================
-
-// No server-side locking: user endpoints will return full materi data and frontend will apply filter.
+const { Materi, Course } = require("../models");
+const { catchAsync } = require("../middleware/errorHandler");
+const {
+	successResponse,
+	createdResponse,
+	notFoundResponse,
+	paginatedResponse,
+} = require("../utils/response");
+const { NotFoundError, BadRequestError } = require("../utils/errors");
+const { uploadToCloudinaryAndDelete } = require("../utils/cloudinary-helper");
+const {
+	getPaginated,
+	getById,
+	createRecord,
+	updateRecord,
+	deleteRecord,
+} = require("../utils/dbService");
+const logger = require("../config/logger");
+const { Op } = require("sequelize");
 
 /**
- * @description (BARU) Mengambil semua materi dengan status 'isLocked' untuk pengguna.
+ * Get all materi with pagination (OPTIMIZED)
  */
-const getAllMateriForUser = async (req, res) => {
-	try {
-		const materiList = await Materi.findAll();
-		res.status(200).json(materiList);
-	} catch (error) {
-		res
-			.status(500)
-			.json({ message: "Error retrieving materi for user", error });
+const getAllMateri = catchAsync(async (req, res) => {
+	const { page = 1, limit = 10, search, id_course, tipeKonten } = req.query;
+
+	const where = {};
+
+	if (search) {
+		where[Op.or] = [
+			{ judul: { [Op.iLike]: `%${search}%` } },
+			{ deskripsi: { [Op.iLike]: `%${search}%` } },
+		];
 	}
-};
+
+	if (id_course) {
+		where.id_course = id_course;
+	}
+
+	if (tipeKonten) {
+		where.tipeKonten = tipeKonten;
+	}
+
+	const result = await getPaginated(Materi, {
+		page,
+		limit,
+		where,
+		include: [
+			{
+				model: Course,
+				attributes: ["id", "judul"],
+			},
+		],
+		order: [["tingkatan", "ASC"]],
+	});
+
+	return paginatedResponse(
+		res,
+		result.data,
+		result.pagination,
+		"Materi retrieved successfully"
+	);
+});
 
 /**
- * @description (BARU) Mengambil satu materi by ID dan memvalidasi akses pengguna.
+ * Get materi by ID (OPTIMIZED)
  */
-const getMateriByIdForUser = async (req, res) => {
+const getMateriById = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	try {
-		const materi = await Materi.findByPk(id);
-		if (materi) {
-			res.status(200).json(materi);
-		} else {
-			res.status(404).json({ message: "Materi not found" });
-		}
-	} catch (error) {
-		res
-			.status(500)
-			.json({ message: "Error retrieving materi for user", error });
+
+	const materi = await getById(Materi, id, {
+		include: [
+			{
+				model: Course,
+				attributes: ["id", "judul"],
+			},
+		],
+	});
+
+	if (!materi) {
+		throw new NotFoundError("Materi not found");
 	}
-};
 
-// =================================================================================
-// FUNGSI MANAJEMEN DATA (Create, Update, Delete)
-// =================================================================================
+	return successResponse(res, materi, "Materi retrieved successfully");
+});
 
-const createMateri = async (req, res) => {
+/**
+ * Get all materi for user (OPTIMIZED)
+ */
+const getAllMateriForUser = catchAsync(async (req, res) => {
+	const { page = 1, limit = 10, id_course } = req.query;
+
+	const where = {};
+	if (id_course) {
+		where.id_course = id_course;
+	}
+
+	const result = await getPaginated(Materi, {
+		page,
+		limit,
+		where,
+		include: [
+			{
+				model: Course,
+				attributes: ["id", "judul"],
+			},
+		],
+		order: [["tingkatan", "ASC"]],
+	});
+
+	// Frontend will handle locking logic
+	return paginatedResponse(
+		res,
+		result.data,
+		result.pagination,
+		"Materi retrieved successfully"
+	);
+});
+
+/**
+ * Get materi by ID for user (OPTIMIZED)
+ */
+const getMateriByIdForUser = catchAsync(async (req, res) => {
+	const { id } = req.params;
+
+	const materi = await getById(Materi, id, {
+		include: [
+			{
+				model: Course,
+				attributes: ["id", "judul"],
+			},
+		],
+	});
+
+	if (!materi) {
+		throw new NotFoundError("Materi not found");
+	}
+
+	// Frontend will handle access control
+	return successResponse(res, materi, "Materi retrieved successfully");
+});
+
+/**
+ * Create materi (OPTIMIZED)
+ */
+const createMateri = catchAsync(async (req, res) => {
 	const { id_course, judul, deskripsi, tipeKonten, konten, tingkatan } =
 		req.body;
-	try {
-		let kontenValue = konten; // Default ke nilai dari body
 
-		// Jika ada file yang diunggah, proses dan gunakan URL-nya
-		if (req.file) {
-			const result = await cloudinary.uploader.upload(req.file.path, {
-				folder: "materi",
-				resource_type: "auto", // Otomatis deteksi tipe file (baik untuk PDF, gambar, dll)
-				use_filename: true,
-				unique_filename: false,
-				overwrite: true,
-			});
-			kontenValue = result.secure_url; // Timpa nilai konten dengan URL dari Cloudinary
-			fs.unlinkSync(req.file.path); // Hapus file sementara setelah diunggah
-		}
+	// Verify course exists
+	const course = await Course.findByPk(id_course);
+	if (!course) {
+		throw new NotFoundError("Course not found");
+	}
 
-		const newMateri = await Materi.create({
-			id_course,
-			judul,
-			deskripsi,
-			tipeKonten,
-			konten: kontenValue, // Gunakan nilai konten yang sudah diproses
-			tingkatan,
+	let kontenValue = konten;
+
+	// Handle file upload
+	if (req.file) {
+		const result = await uploadToCloudinaryAndDelete(req.file.path, {
+			folder: "pencak-silat/materi",
+			resource_type: "auto", // Auto-detect file type (PDF, image, video)
 		});
-		res.status(201).json(newMateri);
-	} catch (error) {
-		// Jika ada error dan file sementara masih ada, hapus
-		if (req.file && fs.existsSync(req.file.path)) {
-			fs.unlinkSync(req.file.path);
-		}
-		res.status(500).json({ message: "Error creating materi", error });
+		kontenValue = result.secure_url;
 	}
-};
 
-const updateMateri = async (req, res) => {
-	const { id } = req.params;
-	const { id_course, judul, deskripsi, tipeKonten, tingkatan } = req.body;
-	try {
-		const materi = await Materi.findByPk(id);
-		if (!materi) {
-			return res.status(404).json({ message: "Materi not found" });
-		}
-		if (req.file) {
-			try {
-				if (materi.konten && materi.tipeKonten !== "video") {
-					const publicId = materi.konten.split("/").pop().split(".")[0];
-					await cloudinary.uploader.destroy(`materi/${publicId}`);
-				}
-				const result = await cloudinary.uploader.upload(req.file.path, {
-					folder: "materi",
-					use_filename: true,
-					unique_filename: false,
-					overwrite: true,
-				});
-				req.body.konten = result.secure_url;
-				fs.unlinkSync(req.file.path);
-			} catch (uploadError) {
-				if (req.file && fs.existsSync(req.file.path)) {
-					fs.unlinkSync(req.file.path);
-				}
-				return res
-					.status(500)
-					.json({ message: "Error uploading file", uploadError });
-			}
-		}
-		materi.id_course = id_course || materi.id_course;
-		materi.judul = judul || materi.judul;
-		materi.deskripsi = deskripsi || materi.deskripsi;
-		materi.tipeKonten = tipeKonten || materi.tipeKonten;
-		materi.konten = req.body.konten || materi.konten;
-		materi.tingkatan = tingkatan || materi.tingkatan;
-		await materi.save();
-		res.status(200).json(materi);
-	} catch (error) {
-		res.status(500).json({ message: "Error updating materi", error });
-	}
-};
+	const newMateri = await createRecord(Materi, {
+		id_course,
+		judul,
+		deskripsi,
+		tipeKonten,
+		konten: kontenValue,
+		tingkatan,
+	});
 
-const deleteMateri = async (req, res) => {
+	logger.info("Materi created", {
+		materiId: newMateri.id,
+		courseId: id_course,
+		createdBy: req.user?.id,
+	});
+
+	return createdResponse(res, newMateri, "Materi created successfully");
+});
+
+/**
+ * Update materi (OPTIMIZED)
+ */
+const updateMateri = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	try {
-		const materi = await Materi.findByPk(id);
-		if (!materi) {
-			return res.status(404).json({ message: "Materi not found" });
-		}
-		if (materi.konten && materi.tipeKonten !== "video") {
-			const publicId = materi.konten.split("/").pop().split(".")[0];
-			await cloudinary.uploader.destroy(`materi/${publicId}`);
-		}
-		await materi.destroy();
-		res.status(200).json({ message: "Materi deleted successfully" });
-	} catch (error) {
-		res.status(500).json({ message: "Error deleting materi", error });
+	const updateData = { ...req.body };
+
+	// Check if materi exists
+	const materi = await Materi.findByPk(id);
+	if (!materi) {
+		throw new NotFoundError("Materi not found");
 	}
-};
+
+	// Handle file upload
+	if (req.file) {
+		const result = await uploadToCloudinaryAndDelete(req.file.path, {
+			folder: "pencak-silat/materi",
+			resource_type: "auto",
+		});
+		updateData.konten = result.secure_url;
+	}
+
+	// Update materi
+	await materi.update(updateData);
+
+	logger.info("Materi updated", { materiId: id, updatedBy: req.user?.id });
+
+	return successResponse(res, materi, "Materi updated successfully");
+});
+
+/**
+ * Delete materi (OPTIMIZED)
+ */
+const deleteMateri = catchAsync(async (req, res) => {
+	const { id } = req.params;
+
+	const deleted = await deleteRecord(Materi, id);
+
+	if (!deleted) {
+		throw new NotFoundError("Materi not found");
+	}
+
+	logger.info("Materi deleted", { materiId: id, deletedBy: req.user?.id });
+
+	return successResponse(res, null, "Materi deleted successfully");
+});
+
+/**
+ * Get materi by course ID (OPTIMIZED)
+ */
+const getMaterisByCourseId = catchAsync(async (req, res) => {
+	const { id_course } = req.params;
+
+	// Verify course exists
+	const course = await Course.findByPk(id_course);
+	if (!course) {
+		throw new NotFoundError("Course not found");
+	}
+
+	const materiList = await Materi.findAll({
+		where: { id_course },
+		order: [["tingkatan", "ASC"]],
+	});
+
+	return successResponse(
+		res,
+		materiList,
+		"Course materials retrieved successfully"
+	);
+});
+
+/**
+ * Reorder materi tingkatan (NEW)
+ */
+const reorderMateri = catchAsync(async (req, res) => {
+	const { materiOrder } = req.body; // Array of { id, tingkatan }
+
+	if (!Array.isArray(materiOrder) || materiOrder.length === 0) {
+		throw new BadRequestError("Invalid materi order data");
+	}
+
+	// Update each materi's tingkatan
+	const updatePromises = materiOrder.map((item) =>
+		Materi.update({ tingkatan: item.tingkatan }, { where: { id: item.id } })
+	);
+
+	await Promise.all(updatePromises);
+
+	logger.info("Materi reordered", {
+		count: materiOrder.length,
+		updatedBy: req.user?.id,
+	});
+
+	return successResponse(res, null, "Materi order updated successfully");
+});
 
 module.exports = {
-	// Fungsi original untuk admin
 	getAllMateri,
 	getMateriById,
-
-	// Fungsi baru untuk user
 	getAllMateriForUser,
 	getMateriByIdForUser,
-
-	// Fungsi manajemen
 	createMateri,
 	updateMateri,
 	deleteMateri,
+	getMaterisByCourseId,
+	reorderMateri,
 };

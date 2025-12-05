@@ -1,31 +1,87 @@
+/**
+ * OPTIMIZED Katalog Controller
+ * - Uses catchAsync for error handling
+ * - Uses standardized responses
+ * - Pagination and filtering
+ */
+
 const { Katalog } = require("../models");
+const { catchAsync } = require("../middleware/errorHandler");
+const {
+	successResponse,
+	notFoundResponse,
+	paginatedResponse,
+} = require("../utils/response");
+const { NotFoundError } = require("../utils/errors");
+const { getPaginated, getById } = require("../utils/dbService");
+const { Op } = require("sequelize");
 
-const getAllKatalog = async (req, res) => {
-	try {
-		const katalog = await Katalog.findAll({
-			where: { status: "tersedia" },
-		});
-		res.status(200).json(katalog);
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving katalog", error });
+/**
+ * Get all katalog with pagination and filters (OPTIMIZED)
+ */
+const getAllKatalog = catchAsync(async (req, res) => {
+	const { page = 1, limit = 10, search, status = "tersedia" } = req.query;
+
+	const where = { status };
+
+	if (search) {
+		where[Op.or] = [
+			{ nama: { [Op.iLike]: `%${search}%` } },
+			{ deskripsi: { [Op.iLike]: `%${search}%` } },
+		];
 	}
-};
 
-const getKatalogById = async (req, res) => {
+	const result = await getPaginated(Katalog, {
+		page,
+		limit,
+		where,
+		order: [["createdAt", "DESC"]],
+	});
+
+	return paginatedResponse(
+		res,
+		result.data,
+		result.pagination,
+		"Products retrieved successfully"
+	);
+});
+
+/**
+ * Get katalog by ID (OPTIMIZED)
+ */
+const getKatalogById = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	try {
-		const katalog = await Katalog.findByPk(id);
-		if (katalog) {
-			res.status(200).json(katalog);
-		} else {
-			res.status(404).json({ message: "Katalog not found" });
-		}
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving katalog", error });
+
+	const katalog = await getById(Katalog, id);
+
+	if (!katalog) {
+		throw new NotFoundError("Product not found");
 	}
-};
+
+	return successResponse(res, katalog, "Product retrieved successfully");
+});
+
+/**
+ * Get available products (NEW)
+ */
+const getAvailableKatalog = catchAsync(async (req, res) => {
+	const { limit = 10 } = req.query;
+
+	const katalogList = await Katalog.findAll({
+		where: { status: "tersedia" },
+		limit: parseInt(limit),
+		order: [["createdAt", "DESC"]],
+	});
+
+	return successResponse(
+		res,
+		katalogList,
+		"Available products retrieved successfully"
+	);
+});
 
 module.exports = {
 	getAllKatalog,
 	getKatalogById,
+	getAvailableKatalog,
 };

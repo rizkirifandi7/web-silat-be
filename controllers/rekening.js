@@ -1,117 +1,176 @@
+/**
+ * OPTIMIZED Rekening Controller
+ * - Uses catchAsync for error handling
+ * - Uses standardized responses
+ * - Uses cloudinary-helper for auto-cleanup
+ * - Better error handling
+ */
+
 const { Rekening } = require("../models");
-const fs = require("fs");
-const cloudinary = require("../middleware/cloudinary");
+const { catchAsync } = require("../middleware/errorHandler");
+const {
+	successResponse,
+	createdResponse,
+	notFoundResponse,
+	paginatedResponse,
+} = require("../utils/response");
+const { NotFoundError } = require("../utils/errors");
+const { uploadToCloudinaryAndDelete } = require("../utils/cloudinary-helper");
+const {
+	getPaginated,
+	getById,
+	createRecord,
+	updateRecord,
+	deleteRecord,
+} = require("../utils/dbService");
+const logger = require("../config/logger");
+const { Op } = require("sequelize");
 
-const getAllRekening = async (req, res) => {
-	try {
-		const rekening = await Rekening.findAll();
-		res.status(200).json(rekening);
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving rekening", error });
+/**
+ * Get all rekening with pagination and search (OPTIMIZED)
+ */
+const getAllRekening = catchAsync(async (req, res) => {
+	const { page = 1, limit = 10, search } = req.query;
+
+	const where = {};
+
+	if (search) {
+		where[Op.or] = [
+			{ namaBank: { [Op.iLike]: `%${search}%` } },
+			{ namaPemilik: { [Op.iLike]: `%${search}%` } },
+			{ noRekening: { [Op.iLike]: `%${search}%` } },
+		];
 	}
-};
 
-const getRekeningById = async (req, res) => {
+	const result = await getPaginated(Rekening, {
+		page,
+		limit,
+		where,
+		order: [["createdAt", "DESC"]],
+	});
+
+	return paginatedResponse(
+		res,
+		result.data,
+		result.pagination,
+		"Bank accounts retrieved successfully"
+	);
+});
+
+/**
+ * Get rekening by ID (OPTIMIZED)
+ */
+const getRekeningById = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	try {
-		const rekening = await Rekening.findByPk(id);
-		if (rekening) {
-			res.status(200).json(rekening);
-		} else {
-			res.status(404).json({ message: "Rekening not found" });
-		}
-	} catch (error) {
-		res.status(500).json({ message: "Error retrieving rekening", error });
+
+	const rekening = await getById(Rekening, id);
+
+	if (!rekening) {
+		throw new NotFoundError("Bank account not found");
 	}
-};
 
-const createRekening = async (req, res) => {
+	return successResponse(res, rekening, "Bank account retrieved successfully");
+});
+
+/**
+ * Create rekening (OPTIMIZED)
+ */
+const createRekening = catchAsync(async (req, res) => {
 	const { namaBank, noRekening, namaPemilik } = req.body;
-	try {
-		let gambarUrl = null;
-		if (req.file) {
-			const result = await cloudinary.uploader.upload(req.file.path, {
-				folder: "rekening",
-				use_filename: true,
-				unique_filename: false,
-				overwrite: true,
-			});
 
-			gambarUrl = result.secure_url;
-			// Hapus file lokal setelah upload berhasil
-			fs.unlinkSync(req.file.path);
-		}
-		const newRekening = await Rekening.create({
-			logo: gambarUrl,
-			namaPemilik,
-			namaBank,
-			noRekening,
+	let gambarUrl = null;
+
+	// Handle logo upload
+	if (req.file) {
+		const result = await uploadToCloudinaryAndDelete(req.file.path, {
+			folder: "pencak-silat/rekening",
 		});
-		res.status(201).json(newRekening);
-	} catch (error) {
-		res.status(500).json({ message: "Error creating rekening", error });
+		gambarUrl = result.secure_url;
 	}
-};
 
-const updateRekening = async (req, res) => {
+	const newRekening = await createRecord(Rekening, {
+		logo: gambarUrl,
+		namaPemilik,
+		namaBank,
+		noRekening,
+	});
+
+	logger.info("Bank account created", {
+		rekeningId: newRekening.id,
+		createdBy: req.user?.id,
+	});
+
+	return createdResponse(res, newRekening, "Bank account created successfully");
+});
+
+/**
+ * Update rekening (OPTIMIZED)
+ */
+const updateRekening = catchAsync(async (req, res) => {
 	const { id } = req.params;
 	const { namaBank, noRekening, namaPemilik } = req.body;
-	try {
-		const rekening = await Rekening.findByPk(id);
-		if (!rekening) {
-			return res.status(404).json({ message: "Rekening not found" });
-		}
 
-		if (req.file) {
-			try {
-				if (rekening.logo) {
-					const publicId = rekening.logo.split("/").pop().split(".")[0];
-					await cloudinary.uploader.destroy(`rekening/${publicId}`);
-				}
-
-				const result = await cloudinary.uploader.upload(req.file.path, {
-					folder: "rekening",
-					use_filename: true,
-					unique_filename: false,
-					overwrite: true,
-				});
-				req.body.logo = result.secure_url;
-			} catch (uploadError) {
-				fs.unlinkSync(req.file.path);
-				return res
-					.status(500)
-					.json({ message: "Error uploading logo", uploadError });
-			}
-			rekening.set(req.body);
-			await rekening.save();
-			// Hapus file lokal setelah save berhasil
-			fs.unlinkSync(req.file.path);
-		} else {
-			rekening.namaPemilik = namaPemilik;
-			rekening.namaBank = namaBank;
-			rekening.noRekening = noRekening;
-			await rekening.save();
-			res.status(200).json(rekening);
-		}
-	} catch (error) {
-		res.status(500).json({ message: "Error updating rekening", error });
+	// Check if rekening exists
+	const rekening = await Rekening.findByPk(id);
+	if (!rekening) {
+		throw new NotFoundError("Bank account not found");
 	}
-};
 
-const deleteRekening = async (req, res) => {
+	const updateData = { namaBank, noRekening, namaPemilik };
+
+	// Handle logo upload
+	if (req.file) {
+		const result = await uploadToCloudinaryAndDelete(req.file.path, {
+			folder: "pencak-silat/rekening",
+		});
+		updateData.logo = result.secure_url;
+	}
+
+	// Update rekening
+	await rekening.update(updateData);
+
+	logger.info("Bank account updated", {
+		rekeningId: id,
+		updatedBy: req.user?.id,
+	});
+
+	return successResponse(res, rekening, "Bank account updated successfully");
+});
+
+/**
+ * Delete rekening (OPTIMIZED)
+ */
+const deleteRekening = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	try {
-		const rekening = await Rekening.findByPk(id);
-		if (!rekening) {
-			return res.status(404).json({ message: "Rekening not found" });
-		}
 
-		await rekening.destroy();
-		res.status(200).json({ message: "Rekening deleted successfully" });
-	} catch (error) {
-		res.status(500).json({ message: "Error deleting rekening", error });
+	const deleted = await deleteRecord(Rekening, id);
+
+	if (!deleted) {
+		throw new NotFoundError("Bank account not found");
 	}
-};
+
+	logger.info("Bank account deleted", {
+		rekeningId: id,
+		deletedBy: req.user?.id,
+	});
+
+	return successResponse(res, null, "Bank account deleted successfully");
+});
+
+/**
+ * Get active rekening (NEW)
+ */
+const getActiveRekening = catchAsync(async (req, res) => {
+	const rekeningList = await Rekening.findAll({
+		order: [["createdAt", "DESC"]],
+	});
+
+	return successResponse(
+		res,
+		rekeningList,
+		"Active bank accounts retrieved successfully"
+	);
+});
 
 module.exports = {
 	getAllRekening,
@@ -119,4 +178,5 @@ module.exports = {
 	createRekening,
 	updateRekening,
 	deleteRekening,
+	getActiveRekening,
 };

@@ -21,7 +21,7 @@ const core = new midtransClient.CoreApi({
 const generateOrderId = () => {
 	const timestamp = Date.now();
 	const random = Math.floor(Math.random() * 1000);
-	return `SEMINAR-${timestamp}-${random}`;
+	return `ORDER-${timestamp}-${random}`;
 };
 
 /**
@@ -31,8 +31,6 @@ const generateOrderId = () => {
  */
 const createTransaction = async (parameter) => {
 	try {
-		console.log("\n🔧 [MIDTRANS UTILS] Creating transaction...");
-
 		// parameter already in correct format from controller
 		// Add callbacks if not provided
 		if (!parameter.callbacks) {
@@ -51,14 +49,7 @@ const createTransaction = async (parameter) => {
 			};
 		}
 
-		console.log("📤 Final parameter to Midtrans API:");
-		console.log(JSON.stringify(parameter, null, 2));
-
 		const transaction = await snap.createTransaction(parameter);
-
-		console.log("✅ Transaction created successfully!");
-		console.log("🔑 Snap Token:", transaction.token);
-		console.log("🔗 Redirect URL:", transaction.redirect_url);
 
 		return {
 			token: transaction.token,
@@ -67,29 +58,6 @@ const createTransaction = async (parameter) => {
 			expiry_time: null, // Midtrans doesn't return exact expiry time
 		};
 	} catch (error) {
-		console.error("\n❌ [MIDTRANS UTILS] Create transaction error:");
-		console.error("Error Message:", error.message);
-		console.error("Error Stack:", error.stack);
-
-		if (error.response) {
-			console.error("API Response Status:", error.response.status);
-			console.error(
-				"API Response Data:",
-				JSON.stringify(error.response.data, null, 2)
-			);
-		}
-
-		if (error.httpStatusCode) {
-			console.error("HTTP Status Code:", error.httpStatusCode);
-		}
-
-		if (error.ApiResponse) {
-			console.error(
-				"Midtrans API Response:",
-				JSON.stringify(error.ApiResponse, null, 2)
-			);
-		}
-
 		throw error;
 	}
 };
@@ -109,7 +77,6 @@ const verifySignature = (notification) => {
 
 		return hash === signature_key;
 	} catch (error) {
-		console.error("Verify signature error:", error);
 		return false;
 	}
 };
@@ -122,30 +89,9 @@ const verifySignature = (notification) => {
  */
 const createBankTransfer = async (parameter) => {
 	try {
-		console.log("\n🏦 [MIDTRANS CORE API] Creating Bank Transfer...");
-		console.log("📤 Parameter:", JSON.stringify(parameter, null, 2));
-
 		const chargeResponse = await core.charge(parameter);
-
-		console.log("✅ Bank Transfer created successfully!");
-		console.log(
-			"🔢 VA Number:",
-			chargeResponse.va_numbers?.[0]?.va_number || "N/A"
-		);
-		console.log("📦 Full Response:", JSON.stringify(chargeResponse, null, 2));
-
 		return chargeResponse;
 	} catch (error) {
-		console.error("\n❌ [MIDTRANS CORE API] Create bank transfer error:");
-		console.error("Error Message:", error.message);
-
-		if (error.ApiResponse) {
-			console.error(
-				"Midtrans API Response:",
-				JSON.stringify(error.ApiResponse, null, 2)
-			);
-		}
-
 		// Create a clean error object without circular references
 		const cleanError = new Error(
 			error.message || "Failed to create bank transfer"
@@ -167,7 +113,6 @@ const getTransactionStatus = async (orderId) => {
 		const status = await snap.transaction.status(orderId);
 		return status;
 	} catch (error) {
-		console.error("Check transaction status error:", error);
 		throw new Error(error.message || "Failed to get transaction status");
 	}
 };
@@ -179,3 +124,4 @@ module.exports = {
 	verifySignature,
 	getTransactionStatus,
 };
+

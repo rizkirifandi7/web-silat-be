@@ -3,6 +3,7 @@ const cloudinary = require("../../middleware/cloudinary");
 const {
 	uploadToCloudinaryAndDelete,
 } = require("../../utils/cloudinary-helper");
+const logger = require("../../config/logger");
 
 // Get all payment methods
 const getAllPaymentMethods = async (req, res) => {
@@ -26,7 +27,7 @@ const getAllPaymentMethods = async (req, res) => {
 			data: paymentMethods,
 		});
 	} catch (error) {
-		console.error("Error getting payment methods:", error);
+		logger.error("Error getting payment methods:", error);
 		res.status(500).json({
 			status: "error",
 			message: "Failed to get payment methods",
@@ -53,7 +54,7 @@ const getPaymentMethodById = async (req, res) => {
 			data: paymentMethod,
 		});
 	} catch (error) {
-		console.error("Error getting payment method:", error);
+		logger.error("Error getting payment method:", error);
 		res.status(500).json({
 			status: "error",
 			message: "Failed to get payment method",
@@ -79,7 +80,7 @@ const createPaymentMethod = async (req, res) => {
 		let icon_url = null;
 		if (req.file) {
 			const result = await uploadToCloudinaryAndDelete(req.file.path, {
-				folder: "payment_methods",
+				folder: "pencak-silat/payment-methods",
 			});
 			icon_url = result.secure_url;
 		}
@@ -102,7 +103,7 @@ const createPaymentMethod = async (req, res) => {
 			data: paymentMethod,
 		});
 	} catch (error) {
-		console.error("Error creating payment method:", error);
+		logger.error("Error creating payment method:", error);
 		res.status(500).json({
 			status: "error",
 			message: "Failed to create payment method",
@@ -127,7 +128,7 @@ const updatePaymentMethod = async (req, res) => {
 
 		if (req.file) {
 			const result = await uploadToCloudinaryAndDelete(req.file.path, {
-				folder: "payment_methods",
+				folder: "pencak-silat/payment-methods",
 			});
 			updateData.icon_url = result.secure_url;
 		}
@@ -140,7 +141,7 @@ const updatePaymentMethod = async (req, res) => {
 			data: paymentMethod,
 		});
 	} catch (error) {
-		console.error("Error updating payment method:", error);
+		logger.error("Error updating payment method:", error);
 		res.status(500).json({
 			status: "error",
 			message: "Failed to update payment method",
@@ -169,7 +170,7 @@ const deletePaymentMethod = async (req, res) => {
 			message: "Payment method deleted successfully",
 		});
 	} catch (error) {
-		console.error("Error deleting payment method:", error);
+		logger.error("Error deleting payment method:", error);
 		res.status(500).json({
 			status: "error",
 			message: "Failed to delete payment method",
@@ -189,7 +190,7 @@ const uploadPaymentMethodIcon = async (req, res) => {
 		}
 
 		const result = await uploadToCloudinaryAndDelete(req.file.path, {
-			folder: "payment_methods",
+			folder: "pencak-silat/payment-methods",
 		});
 
 		res.status(200).json({
@@ -199,7 +200,7 @@ const uploadPaymentMethodIcon = async (req, res) => {
 			},
 		});
 	} catch (error) {
-		console.error("Error uploading icon:", error);
+		logger.error("Error uploading icon:", error);
 		res.status(500).json({
 			status: "error",
 			message: "Failed to upload icon",

@@ -20,7 +20,6 @@ const createSnapTransaction = async (params) => {
 			redirect_url: transaction.redirect_url,
 		};
 	} catch (error) {
-		console.error("Midtrans Error:", error.message);
 		throw new Error(error.message || "Payment gateway error");
 	}
 };
@@ -34,7 +33,6 @@ const getTransactionStatus = async (orderId) => {
 	try {
 		return await snap.transaction.status(orderId);
 	} catch (error) {
-		console.error("Get Status Error:", error.message);
 		throw new Error("Failed to get transaction status");
 	}
 };
