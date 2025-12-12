@@ -28,20 +28,17 @@ const allowedOrigins = process.env.ALLOWED_ORIGINS
 
 const corsOptions = {
 	origin: function (origin, callback) {
-		// Allow requests with no origin (like mobile apps or curl requests)
+		// Allow requests with no origin (mobile apps, Postman, etc.)
 		if (!origin) return callback(null, true);
 
-		if (
-			allowedOrigins.indexOf(origin) !== -1 ||
-			process.env.NODE_ENV !== "production"
-		) {
+		if (allowedOrigins.indexOf(origin) !== -1) {
 			callback(null, true);
 		} else {
 			callback(new Error("Not allowed by CORS"));
 		}
 	},
 	methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
-	allowedHeaders: ["Content-Type", "Authorization"],
+	allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
 	credentials: true,
 	maxAge: 86400, // Cache preflight for 24 hours
 };

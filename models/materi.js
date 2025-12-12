@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 			Materi.belongsTo(models.Course, {
 				foreignKey: "id_course",
 				as: "Course",
+				onDelete: "CASCADE",
 			});
 		}
 	}
@@ -35,6 +36,11 @@ module.exports = (sequelize, DataTypes) => {
 					"Sabuk Hitam Wiraga 3"
 				),
 				allowNull: false,
+			},
+			urutan: {
+				type: DataTypes.INTEGER,
+				allowNull: true,
+				defaultValue: 0,
 			},
 		},
 		{

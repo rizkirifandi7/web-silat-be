@@ -7,6 +7,7 @@ const {
 	deleteAnggota,
 	getAnggotaByIdToken,
 	getAnggotaStats,
+	getAdminStats,
 	bulkUpdateStatus,
 } = require("../controllers/anggota");
 
@@ -15,7 +16,8 @@ const verifyToken = require("../middleware/verifyToken");
 
 router.get("/", getAllAnggota);
 router.get("/admins", getAllAnggotaAdmin);
-router.get("/stats", verifyToken, getAnggotaStats); // NEW - Statistics endpoint
+router.get("/stats", verifyToken, getAnggotaStats); // Statistics endpoint for members
+router.get("/admin-stats", verifyToken, getAdminStats); // Statistics endpoint for admins
 router.get("/:id", getAnggotaById);
 router.put("/:id", upload.single("foto"), updateAnggota);
 router.post("/bulk-update-status", verifyToken, bulkUpdateStatus); // NEW - Bulk update

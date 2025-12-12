@@ -12,6 +12,7 @@ const {
 	// Fungsi manajemen
 	createMateri,
 	updateMateri,
+	updateMateriOrder,
 	deleteMateri,
 } = require("../controllers/materi");
 
@@ -22,6 +23,7 @@ router.get("/anggota", getAllMateriForUser);
 router.get("/anggota/:id", getMateriByIdForUser);
 router.get("/:id", getMateriById);
 router.post("/", upload.single("konten"), createMateri);
+router.put("/order", updateMateriOrder); // NEW - Update order
 router.put("/:id", upload.single("konten"), updateMateri);
 router.delete("/:id", deleteMateri);
 

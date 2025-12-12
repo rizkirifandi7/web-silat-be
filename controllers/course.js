@@ -50,15 +50,35 @@ const getAllCourses = catchAsync(async (req, res) => {
 		include: [
 			{
 				model: Materi,
-				attributes: ["id", "judul", "tipeKonten", "tingkatan"],
+				attributes: [
+					"id",
+					"judul",
+					"deskripsi",
+					"tipeKonten",
+					"konten",
+					"tingkatan",
+					"urutan",
+				],
 			},
 		],
-		order: [["createdAt", "DESC"]],
+		order: [
+			["urutan", "ASC"],
+			["createdAt", "DESC"],
+		],
+	});
+
+	// Add materi count to each course
+	const dataWithCount = result.data.map((course) => {
+		const courseData = course.toJSON();
+		return {
+			...courseData,
+			materialCount: courseData.Materis ? courseData.Materis.length : 0,
+		};
 	});
 
 	return paginatedResponse(
 		res,
-		result.data,
+		dataWithCount,
 		result.pagination,
 		"Courses retrieved successfully"
 	);
@@ -108,7 +128,15 @@ const getAllCoursesForUser = catchAsync(async (req, res) => {
 		include: [
 			{
 				model: Materi,
-				attributes: ["id", "judul", "tipeKonten", "tingkatan"],
+				attributes: [
+					"id",
+					"judul",
+					"deskripsi",
+					"tipeKonten",
+					"konten",
+					"tingkatan",
+					"urutan",
+				],
 			},
 		],
 		order: [["createdAt", "DESC"]],
@@ -174,11 +202,17 @@ const getAllMateriByCourseId = catchAsync(async (req, res) => {
  * Create course (OPTIMIZED)
  */
 const createCourse = catchAsync(async (req, res) => {
-	const { judul, deskripsi } = req.body;
+	const { judul, deskripsi, tingkatan_sabuk } = req.body;
+
+	// Get max urutan and increment
+	const maxUrutan = await Course.max("urutan");
+	const nextUrutan = (maxUrutan || 0) + 1;
 
 	const newCourse = await createRecord(Course, {
 		judul,
 		deskripsi,
+		urutan: nextUrutan,
+		tingkatan_sabuk: tingkatan_sabuk || null,
 	});
 
 	logger.info("Course created", {
@@ -190,16 +224,57 @@ const createCourse = catchAsync(async (req, res) => {
 });
 
 /**
+ * Update course order (NEW)
+ */
+const updateCourseOrder = catchAsync(async (req, res) => {
+	const { orders } = req.body; // Array of {id, urutan}
+
+	if (!Array.isArray(orders) || orders.length === 0) {
+		throw new BadRequestError("Orders must be a non-empty array");
+	}
+
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		// Update each course's urutan
+		await Promise.all(
+			orders.map((item) =>
+				Course.update(
+					{ urutan: item.urutan },
+					{ where: { id: item.id }, transaction }
+				)
+			)
+		);
+
+		await transaction.commit();
+
+		logger.info("Course order updated", { updatedBy: req.user?.id });
+
+		return successResponse(res, null, "Course order updated successfully");
+	} catch (error) {
+		await transaction.rollback();
+		throw error;
+	}
+});
+
+/**
  * Update course (OPTIMIZED)
  */
 const updateCourse = catchAsync(async (req, res) => {
 	const { id } = req.params;
-	const { judul, deskripsi } = req.body;
+	const { judul, deskripsi, tingkatan_sabuk } = req.body;
 
-	const course = await updateRecord(Course, id, {
+	const updateData = {
 		judul,
 		deskripsi,
-	});
+	};
+
+	// Only update tingkatan_sabuk if provided (allow null to clear it)
+	if (tingkatan_sabuk !== undefined) {
+		updateData.tingkatan_sabuk = tingkatan_sabuk;
+	}
+
+	const course = await updateRecord(Course, id, updateData);
 
 	if (!course) {
 		throw new NotFoundError("Course not found");
@@ -281,6 +356,7 @@ module.exports = {
 	getAllMateriByCourseId,
 	createCourse,
 	updateCourse,
+	updateCourseOrder,
 	deleteCourse,
 	getCourseStats,
 };

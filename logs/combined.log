@@ -2,3 +2,255 @@
 {"level":"info","message":"Server running on port 8015","timestamp":"2025-12-10 14:03:21"}
 {"level":"info","message":"Environment: development","timestamp":"2025-12-10 14:03:21"}
 {"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-10 14:03:47","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-10 14:23:20"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-10 14:23:20"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-10 14:23:20"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:06:42"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:06:42"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:06:42"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:12:00"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:12:00"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:12:00"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:14:07"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:14:07"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:14:07"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:14:32"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:14:32"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:14:32"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:14:41"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:14:41"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:14:41"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:14:44"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:14:44"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:14:44"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:21:53"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:21:53"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:21:53"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:22:21"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:22:21"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:22:21"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:22:26"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:22:26"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:22:26"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-12 18:32:21","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:36:55"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:36:55"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:36:55"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:36:57"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:36:57"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:36:57"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:37:40"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:37:40"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:37:40"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:39:34"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:39:34"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:39:34"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:39:36"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:39:36"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:39:36"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:39:56"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:39:56"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:39:56"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:47:37"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:47:37"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:47:37"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:48:12"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:48:12"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:48:12"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:48:20"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:48:20"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:48:20"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:49:03"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:49:03"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:49:03"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 18:49:13"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 18:49:13"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 18:49:13"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-12 19:05:56","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-12 19:13:08","userId":1}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-12 19:15:55","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 19:22:35"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 19:22:35"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 19:22:35"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 19:25:36"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 19:25:36"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 19:25:36"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 19:25:47"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 19:25:47"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 19:25:47"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-12 19:29:19","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 19:34:49"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 19:34:49"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 19:34:49"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 19:44:25"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 19:44:25"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 19:44:25"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 19:45:27"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 19:45:27"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 19:45:27"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-12 19:50:46","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 19:59:00"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 19:59:00"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 19:59:00"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 19:59:40"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 19:59:40"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 19:59:40"}
+{"date":"Fri Dec 12 2025 20:04:26 GMT+0700 (Waktu Indonesia Barat)","error":{"http_code":400,"message":"Invalid extension in transformation: auto","name":"Error"},"level":"error","message":"unhandledRejection: Invalid extension in transformation: auto\n  No stack trace","os":{"loadavg":[0,0,0],"uptime":74720.531},"process":{"argv":["C:\\Program Files\\nodejs\\node.exe","C:\\IKI\\PROJECT-CLIENT\\web-silat\\web-pencak-silat-be\\app.js"],"cwd":"C:\\IKI\\PROJECT-CLIENT\\web-silat\\web-pencak-silat-be","execPath":"C:\\Program Files\\nodejs\\node.exe","gid":null,"memoryUsage":{"arrayBuffers":3364067,"external":7017475,"heapTotal":27873280,"heapUsed":25694744,"rss":82378752},"pid":8544,"uid":null,"version":"v22.19.0"},"rejection":true,"timestamp":"2025-12-12 20:04:26","trace":[]}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 20:05:17"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 20:05:17"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 20:05:17"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-12 20:06:17"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-12 20:06:17"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-12 20:06:17"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-12 20:06:56","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 00:48:07"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 00:48:07"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 00:48:07"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-13 00:50:53","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 00:53:08"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 00:53:08"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 00:53:08"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 00:53:10"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 00:53:10"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 00:53:10"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 01:05:22"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 01:05:22"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 01:05:22"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 01:05:24"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 01:05:24"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 01:05:24"}
+{"level":"info","message":"Access token refreshed","timestamp":"2025-12-13 01:06:11","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 01:14:10"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 01:14:10"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 01:14:10"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 01:15:28"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 01:15:28"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 01:15:28"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 01:17:58"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 01:17:58"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 01:17:58"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 01:18:01"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 01:18:01"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 01:18:01"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 01:19:58"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 01:19:58"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 01:19:58"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 01:20:08"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 01:20:08"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 01:20:08"}
+{"level":"info","message":"Access token refreshed","timestamp":"2025-12-13 01:21:19","userId":1}
+{"id":"10","level":"info","message":"Member updated","timestamp":"2025-12-13 01:26:12"}
+{"courseId":1,"level":"info","message":"Course created","timestamp":"2025-12-13 01:32:15"}
+{"courseId":"1","level":"info","materiId":1,"message":"Materi created","timestamp":"2025-12-13 01:36:08"}
+{"courseId":"1","level":"info","materiId":2,"message":"Materi created","timestamp":"2025-12-13 01:36:42"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 01:39:10"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 01:39:10"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 01:39:10"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 01:48:53"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 01:48:53"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 01:48:53"}
+{"level":"info","message":"Access token refreshed","timestamp":"2025-12-13 01:53:56","userId":1}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:10:40"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:10:40"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:10:40"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:10:48"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:10:48"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:10:48"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:10:50"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:10:50"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:10:50"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:11:00"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:11:00"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:11:00"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:11:02"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:11:02"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:11:02"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:11:08"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:11:08"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:11:08"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:11:12"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:11:12"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:11:12"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:11:40"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:11:40"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:11:40"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:11:42"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:11:42"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:11:42"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:11:48"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:11:48"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:11:48"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:11:49"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:11:49"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:11:49"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:13:40"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:13:40"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:13:40"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-13 02:14:20","userId":1}
+{"courseId":2,"level":"info","message":"Course created","timestamp":"2025-12-13 02:14:42"}
+{"level":"info","message":"Course order updated","timestamp":"2025-12-13 02:14:47"}
+{"level":"info","message":"Course order updated","timestamp":"2025-12-13 02:14:59"}
+{"level":"info","message":"Course order updated","timestamp":"2025-12-13 02:15:14"}
+{"level":"info","message":"Course order updated","timestamp":"2025-12-13 02:15:15"}
+{"level":"info","message":"Course order updated","timestamp":"2025-12-13 02:16:38"}
+{"level":"info","message":"Course order updated","timestamp":"2025-12-13 02:21:36"}
+{"level":"info","message":"Course order updated","timestamp":"2025-12-13 02:21:38"}
+{"courseId":"2","level":"info","materiId":3,"message":"Materi created","timestamp":"2025-12-13 02:23:26"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:26:44"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:26:45"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:26:45"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:27:01"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:27:01"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:27:01"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:27:05"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:27:05"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:27:05"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:27:50"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:27:50"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:27:50"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:27:54"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:27:54"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:27:54"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 02:32:10"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 02:32:10"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 02:32:10"}
+{"courseId":"1","level":"info","message":"Course deleted","timestamp":"2025-12-13 02:32:45"}
+{"courseId":"2","level":"info","message":"Course deleted","timestamp":"2025-12-13 02:32:51"}
+{"courseId":3,"level":"info","message":"Course created","timestamp":"2025-12-13 02:33:14"}
+{"courseId":"3","level":"info","message":"Course updated","timestamp":"2025-12-13 02:35:47"}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-13 02:45:43","userId":1}
+{"courseId":"3","level":"info","materiId":4,"message":"Materi created","timestamp":"2025-12-13 02:46:23"}
+{"level":"info","materiId":"4","message":"Materi updated","timestamp":"2025-12-13 02:46:36"}
+{"level":"info","materiId":"4","message":"Materi deleted","timestamp":"2025-12-13 02:46:44"}
+{"courseId":"3","level":"info","materiId":5,"message":"Materi created","timestamp":"2025-12-13 02:46:54"}
+{"courseId":4,"level":"info","message":"Course created","timestamp":"2025-12-13 02:51:08"}
+{"courseId":5,"level":"info","message":"Course created","timestamp":"2025-12-13 02:51:25"}
+{"level":"info","message":"Course order updated","timestamp":"2025-12-13 02:52:14"}
+{"level":"info","message":"Course order updated","timestamp":"2025-12-13 02:52:16"}
+{"courseId":6,"level":"info","message":"Course created","timestamp":"2025-12-13 02:54:15"}
+{"courseId":"6","level":"info","message":"Course updated","timestamp":"2025-12-13 02:55:45"}
+{"courseId":"6","level":"info","message":"Course updated","timestamp":"2025-12-13 02:56:29"}
+{"level":"info","message":"Course order updated","timestamp":"2025-12-13 02:58:00"}
+{"email":"rizki@gmail.com","id":11,"level":"info","message":"New member registered","timestamp":"2025-12-13 02:59:23"}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-13 02:59:37","userId":11}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-13 03:23:41","userId":11}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-13 03:27:42","userId":11}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 03:45:23"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 03:45:23"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 03:45:23"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 03:45:27"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 03:45:27"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 03:45:27"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 03:45:45"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 03:45:45"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 03:45:45"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 03:48:39"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 03:48:39"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 03:48:39"}
+{"level":"info","message":"[Cron] Scheduler initialized - no active jobs","timestamp":"2025-12-13 03:49:34"}
+{"level":"info","message":"Server running on port 8015","timestamp":"2025-12-13 03:49:34"}
+{"level":"info","message":"Environment: development","timestamp":"2025-12-13 03:49:34"}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-13 03:51:25","userId":11}
+{"email":"admin@test.com","level":"info","message":"User logged in","timestamp":"2025-12-13 04:01:02","userId":1}
+{"level":"info","materiId":"5","message":"Materi updated","timestamp":"2025-12-13 04:03:22"}
+{"email":"rizki@gmail.com","level":"info","message":"User logged in","timestamp":"2025-12-13 04:03:36","userId":11}

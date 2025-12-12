@@ -186,22 +186,78 @@ const deleteAnggota = catchAsync(async (req, res) => {
  */
 const getAnggotaStats = catchAsync(async (req, res) => {
 	const totalMembers = await Anggota.count({ where: { role: "anggota" } });
-	const totalAdmins = await Anggota.count({ where: { role: "admin" } });
+	const totalAdmins = await Anggota.count({
+		where: {
+			role: {
+				[Op.in]: ["admin", "superadmin"],
+			},
+		},
+	});
 	const activeMembers = await Anggota.count({
 		where: {
 			role: "anggota",
-			status_keanggotaan: "aktif",
+			status_keanggotaan: "Aktif",
 		},
 	});
+
+	// Statistik sabuk - yang punya sabuk adalah yang bukan "Belum punya", null, atau empty
+	const membersWithBelt = await Anggota.count({
+		where: {
+			role: "anggota",
+			tingkatan_sabuk: {
+				[Op.and]: [
+					{ [Op.not]: null },
+					{ [Op.ne]: "" },
+					{ [Op.ne]: "Belum punya" },
+				],
+			},
+		},
+	});
+
+	const membersWithoutBelt = totalMembers - membersWithBelt;
 
 	const stats = {
 		totalMembers,
 		totalAdmins,
 		activeMembers,
 		inactiveMembers: totalMembers - activeMembers,
+		membersWithBelt,
+		membersWithoutBelt,
 	};
 
 	return successResponse(res, stats, "Statistics retrieved successfully");
+});
+
+/**
+ * Get admin statistics (NEW)
+ */
+const getAdminStats = catchAsync(async (req, res) => {
+	const totalAdmins = await Anggota.count({
+		where: {
+			role: {
+				[Op.in]: ["admin", "superadmin"],
+			},
+		},
+	});
+
+	const superAdmins = await Anggota.count({
+		where: { role: "superadmin" },
+	});
+
+	const regularAdmins = await Anggota.count({
+		where: { role: "admin" },
+	});
+
+	const totalMembers = await Anggota.count({ where: { role: "anggota" } });
+
+	const stats = {
+		totalAdmins,
+		superAdmins,
+		regularAdmins,
+		totalMembers,
+	};
+
+	return successResponse(res, stats, "Admin statistics retrieved successfully");
 });
 
 /**
@@ -248,5 +304,6 @@ module.exports = {
 	updateAnggota,
 	deleteAnggota,
 	getAnggotaStats,
+	getAdminStats,
 	bulkUpdateStatus,
 };

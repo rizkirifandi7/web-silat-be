@@ -13,6 +13,7 @@ const {
 	// Fungsi utilitas lainnya
 	createCourse,
 	updateCourse,
+	updateCourseOrder,
 	deleteCourse,
 	getCourseStats,
 } = require("../controllers/course");
@@ -26,6 +27,7 @@ router.get("/anggota/:id", verifyToken, getCourseByIdForUser);
 router.get("/materi/:id_course", getAllMateriByCourseId);
 router.get("/:id", getCourseById);
 router.post("/", createCourse);
+router.put("/order", updateCourseOrder); // NEW - Update order
 router.put("/:id", updateCourse);
 router.delete("/:id", deleteCourse);
 

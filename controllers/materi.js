@@ -152,14 +152,17 @@ const getMateriByIdForUser = catchAsync(async (req, res) => {
  * Create materi (OPTIMIZED)
  */
 const createMateri = catchAsync(async (req, res) => {
-	const { id_course, judul, deskripsi, tipeKonten, konten, tingkatan } =
-		req.body;
+	const { id_course, judul, deskripsi, tipeKonten, konten } = req.body;
 
-	// Verify course exists
+	// Verify course exists and get its tingkatan_sabuk
 	const course = await Course.findByPk(id_course);
 	if (!course) {
 		throw new NotFoundError("Course not found");
 	}
+
+	// Get max urutan for this course and increment
+	const maxUrutan = await Materi.max("urutan", { where: { id_course } });
+	const nextUrutan = (maxUrutan || 0) + 1;
 
 	let kontenValue = konten;
 
@@ -172,6 +175,9 @@ const createMateri = catchAsync(async (req, res) => {
 		kontenValue = result.secure_url;
 	}
 
+	// Inherit tingkatan from course, fallback to 'Belum punya' if course has no tingkatan
+	const tingkatan = course.tingkatan_sabuk || "Belum punya";
+
 	const newMateri = await createRecord(Materi, {
 		id_course,
 		judul,
@@ -179,6 +185,7 @@ const createMateri = catchAsync(async (req, res) => {
 		tipeKonten,
 		konten: kontenValue,
 		tingkatan,
+		urutan: nextUrutan,
 	});
 
 	logger.info("Materi created", {
@@ -286,6 +293,41 @@ const reorderMateri = catchAsync(async (req, res) => {
 	return successResponse(res, null, "Materi order updated successfully");
 });
 
+/**
+ * Update materi order (NEW)
+ */
+const updateMateriOrder = catchAsync(async (req, res) => {
+	const { orders } = req.body; // Array of {id, urutan}
+	const db = require("../models");
+
+	if (!Array.isArray(orders) || orders.length === 0) {
+		throw new BadRequestError("Orders must be a non-empty array");
+	}
+
+	const transaction = await db.sequelize.transaction();
+
+	try {
+		// Update each materi's urutan
+		await Promise.all(
+			orders.map((item) =>
+				Materi.update(
+					{ urutan: item.urutan },
+					{ where: { id: item.id }, transaction }
+				)
+			)
+		);
+
+		await transaction.commit();
+
+		logger.info("Materi order updated", { updatedBy: req.user?.id });
+
+		return successResponse(res, null, "Materi order updated successfully");
+	} catch (error) {
+		await transaction.rollback();
+		throw error;
+	}
+});
+
 module.exports = {
 	getAllMateri,
 	getMateriById,
@@ -293,6 +335,7 @@ module.exports = {
 	getMateriByIdForUser,
 	createMateri,
 	updateMateri,
+	updateMateriOrder,
 	deleteMateri,
 	getMaterisByCourseId,
 	reorderMateri,

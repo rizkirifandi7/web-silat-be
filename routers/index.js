@@ -9,6 +9,8 @@ const materiRoutes = require("./materi");
 const courseRoutes = require("./course");
 const rekeningRoutes = require("./rekening");
 const donasiRoutes = require("./donasi");
+const aboutRoutes = require("./about");
+const uploadRoutes = require("./upload");
 
 // Payment routes
 const donationPaymentRoutes = require("./donationPayment");
@@ -23,6 +25,8 @@ router.use("/galeri", galeriRoutes);
 router.use("/materi", materiRoutes);
 router.use("/rekening", rekeningRoutes);
 router.use("/donasi", donasiRoutes);
+router.use("/about", aboutRoutes);
+router.use("/upload", uploadRoutes);
 router.use("/payment/donation", donationPaymentRoutes);
 
 module.exports = router;
